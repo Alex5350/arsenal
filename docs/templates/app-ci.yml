@@ -1,0 +1,32 @@
+# Starter CI workflow for consumer repositories (any stack).
+# Copy to .github/workflows/ci.yml in the repo created from arsenal, then
+# implement the two make targets the test gate depends on:
+#   make test-unit          # no network required, exit 0 = pass
+#   make test-integration   # may start local services, exit 0 = pass
+# Docs: docs/standards/testing.md
+
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      # Replace with your stack's setup steps, for example:
+      # - uses: actions/setup-node@v5
+      #   with:
+      #     node-version: 24
+      #     cache: npm
+      # - run: npm ci
+
+      - name: Unit tests
+        run: make test-unit
+
+      - name: Integration tests
+        run: make test-integration
