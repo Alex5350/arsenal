@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 400" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="loop-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <marker id="loop-arrow-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+
+  <rect width="1180" height="400" fill="#ffffff"/>
+
+  <text x="40" y="44" font-size="20" font-weight="700" fill="#0f172a">The delivery loop</text>
+  <text x="40" y="68" font-size="13" fill="#64748b">tiers own phases; gates control handoffs</text>
+
+  <!-- Phase nodes: y=120, w=150, h=96 -->
+  <g>
+    <rect x="40" y="120" width="150" height="96" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="56" y="146" font-size="11" fill="#94a3b8" font-family="ui-monospace, 'SF Mono', Menlo, monospace">01</text>
+    <text x="56" y="170" font-size="16" font-weight="600" fill="#0f172a">Research</text>
+    <rect x="56" y="182" width="78" height="20" rx="10" fill="#dbeafe"/>
+    <text x="95" y="196" font-size="11" fill="#1d4ed8" text-anchor="middle">strategist</text>
+
+    <rect x="226" y="120" width="150" height="96" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="242" y="146" font-size="11" fill="#94a3b8" font-family="ui-monospace, 'SF Mono', Menlo, monospace">02</text>
+    <text x="242" y="170" font-size="16" font-weight="600" fill="#0f172a">Planning</text>
+    <rect x="242" y="182" width="78" height="20" rx="10" fill="#dbeafe"/>
+    <text x="281" y="196" font-size="11" fill="#1d4ed8" text-anchor="middle">strategist</text>
+
+    <rect x="412" y="120" width="150" height="96" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="428" y="146" font-size="11" fill="#94a3b8" font-family="ui-monospace, 'SF Mono', Menlo, monospace">03</text>
+    <text x="428" y="170" font-size="16" font-weight="600" fill="#0f172a">Execution</text>
+    <rect x="428" y="182" width="70" height="20" rx="10" fill="#d1fae5"/>
+    <text x="463" y="196" font-size="11" fill="#047857" text-anchor="middle">executor</text>
+
+    <rect x="598" y="120" width="150" height="96" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="614" y="146" font-size="11" fill="#94a3b8" font-family="ui-monospace, 'SF Mono', Menlo, monospace">04</text>
+    <text x="614" y="170" font-size="16" font-weight="600" fill="#0f172a">Verification</text>
+    <rect x="614" y="182" width="70" height="20" rx="10" fill="#fef3c7"/>
+    <text x="649" y="196" font-size="11" fill="#b45309" text-anchor="middle">reviewer</text>
+
+    <rect x="784" y="120" width="150" height="96" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="800" y="146" font-size="11" fill="#94a3b8" font-family="ui-monospace, 'SF Mono', Menlo, monospace">05</text>
+    <text x="800" y="170" font-size="16" font-weight="600" fill="#0f172a">Tracking</text>
+    <rect x="800" y="182" width="70" height="20" rx="10" fill="#d1fae5"/>
+    <text x="835" y="196" font-size="11" fill="#047857" text-anchor="middle">executor</text>
+
+    <rect x="970" y="120" width="150" height="96" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="986" y="146" font-size="11" fill="#94a3b8" font-family="ui-monospace, 'SF Mono', Menlo, monospace">06</text>
+    <text x="986" y="170" font-size="16" font-weight="600" fill="#0f172a">Publishing</text>
+    <rect x="986" y="182" width="112" height="20" rx="10" fill="#dbeafe"/>
+    <text x="1042" y="196" font-size="11" fill="#1d4ed8" text-anchor="middle">strategist + human</text>
+  </g>
+
+  <!-- Arrows between phases -->
+  <line x1="190" y1="168" x2="222" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#loop-arrow)"/>
+  <line x1="376" y1="168" x2="408" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#loop-arrow)"/>
+  <line x1="562" y1="168" x2="594" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#loop-arrow)"/>
+  <line x1="748" y1="168" x2="780" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#loop-arrow)"/>
+  <line x1="934" y1="168" x2="966" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#loop-arrow)"/>
+
+  <!-- Gates on the two critical handoffs -->
+  <g>
+    <rect x="388" y="160" width="14" height="14" rx="2" fill="#d97706" transform="rotate(45 395 167)"/>
+    <text x="395" y="112" font-size="11" fill="#92400e" text-anchor="middle">plan approved</text>
+    <rect x="760" y="160" width="14" height="14" rx="2" fill="#d97706" transform="rotate(45 767 167)"/>
+    <text x="767" y="112" font-size="11" fill="#92400e" text-anchor="middle">test gate</text>
+  </g>
+
+  <!-- Feedback arc -->
+  <path d="M 1045 216 L 1045 296 L 115 296 L 115 222" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#loop-arrow-muted)"/>
+  <text x="580" y="290" font-size="12.5" fill="#64748b" text-anchor="middle" font-style="italic">next cycle: findings seed new research</text>
+
+  <text x="40" y="372" font-size="11" fill="#94a3b8">Strategist models plan and review; executor models write code; the reviewer tier owns verification evidence. Full definitions in docs/workflows/.</text>
+</svg>

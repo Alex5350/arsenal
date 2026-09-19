@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 720" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arrow-dashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+
+  <rect width="1180" height="720" fill="#ffffff"/>
+
+  <text x="40" y="48" font-size="28" font-weight="700" fill="#0f172a">arsenal</text>
+  <text x="40" y="74" font-size="14" fill="#64748b">one hub, any harness</text>
+
+  <!-- Harnesses -->
+  <g>
+    <rect x="40" y="120" width="250" height="88" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="40" y="120" width="6" height="88" rx="3" fill="#d97757"/>
+    <text x="64" y="152" font-size="17" font-weight="600" fill="#0f172a">Claude Code</text>
+    <text x="64" y="178" font-size="12.5" fill="#64748b" font-family="ui-monospace, 'SF Mono', Menlo, monospace">CLAUDE.md -&gt; @docs imports</text>
+
+    <rect x="40" y="232" width="250" height="88" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="40" y="232" width="6" height="88" rx="3" fill="#10a37f"/>
+    <text x="64" y="264" font-size="17" font-weight="600" fill="#0f172a">Codex CLI</text>
+    <text x="64" y="290" font-size="12.5" fill="#64748b" font-family="ui-monospace, 'SF Mono', Menlo, monospace">AGENTS.md</text>
+
+    <rect x="40" y="344" width="250" height="88" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="40" y="344" width="6" height="88" rx="3" fill="#6366f1"/>
+    <text x="64" y="376" font-size="17" font-weight="600" fill="#0f172a">OpenCode</text>
+    <text x="64" y="402" font-size="12.5" fill="#64748b" font-family="ui-monospace, 'SF Mono', Menlo, monospace">AGENTS.md + opencode.json</text>
+
+    <rect x="40" y="456" width="250" height="88" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="40" y="456" width="6" height="88" rx="3" fill="#8b5cf6"/>
+    <text x="64" y="488" font-size="17" font-weight="600" fill="#0f172a">GitHub Copilot</text>
+    <text x="64" y="514" font-size="12.5" fill="#64748b" font-family="ui-monospace, 'SF Mono', Menlo, monospace">copilot-instructions.md</text>
+  </g>
+
+  <!-- Arrows harnesses to hub -->
+  <line x1="290" y1="164" x2="426" y2="164" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="290" y1="276" x2="426" y2="276" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="290" y1="388" x2="426" y2="388" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="290" y1="500" x2="426" y2="500" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Hub -->
+  <g>
+    <rect x="430" y="120" width="380" height="424" rx="14" fill="#0f172a"/>
+    <text x="450" y="152" font-size="20" font-weight="700" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">docs/</text>
+    <text x="530" y="152" font-size="12" fill="#94a3b8">single source of truth</text>
+
+    <rect x="450" y="190" width="165" height="104" rx="8" fill="#1e293b" stroke="#334155"/>
+    <text x="464" y="214" font-size="13" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">standards/</text>
+    <text x="464" y="236" font-size="10.5" fill="#94a3b8">git, testing, security,</text>
+    <text x="464" y="252" font-size="10.5" fill="#94a3b8">code review, docs</text>
+
+    <rect x="627" y="190" width="165" height="104" rx="8" fill="#1e293b" stroke="#334155"/>
+    <text x="641" y="214" font-size="13" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">workflows/</text>
+    <text x="641" y="236" font-size="10.5" fill="#94a3b8">the six-phase</text>
+    <text x="641" y="252" font-size="10.5" fill="#94a3b8">delivery loop</text>
+
+    <rect x="450" y="306" width="165" height="104" rx="8" fill="#1e293b" stroke="#334155"/>
+    <text x="464" y="330" font-size="13" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">models/</text>
+    <text x="464" y="352" font-size="10.5" fill="#94a3b8">tiered routing:</text>
+    <text x="464" y="368" font-size="10.5" fill="#94a3b8">plan, execute, review</text>
+
+    <rect x="627" y="306" width="165" height="104" rx="8" fill="#1e293b" stroke="#334155"/>
+    <text x="641" y="330" font-size="13" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">skills/</text>
+    <text x="641" y="352" font-size="10.5" fill="#94a3b8">shared SKILL.md</text>
+    <text x="641" y="368" font-size="10.5" fill="#94a3b8">library</text>
+
+    <rect x="450" y="422" width="165" height="104" rx="8" fill="#1e293b" stroke="#334155"/>
+    <text x="464" y="446" font-size="13" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">integrations/</text>
+    <text x="464" y="468" font-size="10.5" fill="#94a3b8">GitHub, Jira,</text>
+    <text x="464" y="484" font-size="10.5" fill="#94a3b8">Azure DevOps</text>
+
+    <rect x="627" y="422" width="165" height="104" rx="8" fill="#1e293b" stroke="#334155"/>
+    <text x="641" y="446" font-size="13" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">superpowers/</text>
+    <text x="641" y="468" font-size="10.5" fill="#94a3b8">pinned methodology</text>
+    <text x="641" y="484" font-size="10.5" fill="#94a3b8">layer</text>
+  </g>
+
+  <!-- Outcomes -->
+  <g>
+    <rect x="900" y="130" width="240" height="104" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="900" y="130" width="6" height="104" rx="3" fill="#2563eb"/>
+    <text x="924" y="162" font-size="15" font-weight="600" fill="#0f172a">Work tracking</text>
+    <text x="924" y="186" font-size="11.5" fill="#64748b">GitHub / Jira / Azure DevOps,</text>
+    <text x="924" y="203" font-size="11.5" fill="#64748b">kept truthful by agents</text>
+
+    <rect x="900" y="260" width="240" height="104" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="900" y="260" width="6" height="104" rx="3" fill="#2563eb"/>
+    <text x="924" y="292" font-size="15" font-weight="600" fill="#0f172a">CI validation</text>
+    <text x="924" y="316" font-size="11.5" fill="#64748b">skills, links, scripts,</text>
+    <text x="924" y="333" font-size="11.5" fill="#64748b">and secrets checked</text>
+
+    <rect x="900" y="390" width="240" height="104" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+    <rect x="900" y="390" width="6" height="104" rx="3" fill="#2563eb"/>
+    <text x="924" y="422" font-size="15" font-weight="600" fill="#0f172a">Releases</text>
+    <text x="924" y="446" font-size="11.5" fill="#64748b">versioned, reviewed,</text>
+    <text x="924" y="463" font-size="11.5" fill="#64748b">published with evidence</text>
+  </g>
+
+  <!-- Arrows hub to outcomes -->
+  <line x1="810" y1="182" x2="896" y2="182" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="810" y1="312" x2="896" y2="312" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="810" y1="442" x2="896" y2="442" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Scripts strip -->
+  <g>
+    <rect x="430" y="580" width="380" height="88" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-dasharray="5 4"/>
+    <text x="450" y="608" font-size="14" font-weight="700" fill="#0f172a" font-family="ui-monospace, 'SF Mono', Menlo, monospace">scripts/</text>
+    <text x="450" y="630" font-size="11.5" fill="#64748b">bootstrap.sh: fan shared skills out to each harness</text>
+    <text x="450" y="648" font-size="11.5" fill="#64748b">work-item.sh: one command, three tracking backends</text>
+  </g>
+  <line x1="620" y1="544" x2="620" y2="576" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-dashed)"/>
+  <path d="M 810 624 L 1020 624 L 1020 498" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-dashed)"/>
+
+  <text x="40" y="700" font-size="11" fill="#94a3b8">Adapters point into docs/; scripts wire docs/ into machines and trackers.</text>
+</svg>
