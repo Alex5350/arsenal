@@ -13,14 +13,13 @@ Two surfaces, one hub:
 
 ## How skills reach it
 
-Copilot supports the Agent Skills standard for workspace skills; VS Code
-discovers skills directories in the workspace, and the Copilot coding agent
-reads repository skills on github.com. `scripts/bootstrap.sh` links the
-library into the workspace skills location. Because the coding agent runs on
-github.com, repository-committed skill folders travel with the repo; teams
-that want that behavior can commit the links' targets and drop them from
-`.gitignore` (the guide for that choice is
-[ADR-002](../ARCHITECTURE.md)).
+Copilot discovers workspace skills in `.github/skills/` (VS Code sessions
+and the coding agent) and personal skills in `~/.copilot/skills/`. In this
+repository `.github/skills` is a committed symlink to `docs/skills`, so VS
+Code agent sessions see the library locally and the Copilot coding agent
+sees the same skills when it checks the repository out on github.com;
+nothing extra to install. `scripts/bootstrap.sh --user` links them into
+`~/.copilot/skills` for your other projects.
 
 ## Model tiers
 

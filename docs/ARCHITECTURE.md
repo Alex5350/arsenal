@@ -29,12 +29,17 @@ Codex CLI, OpenCode, and the Copilot coding agent natively, and Claude Code
 reads `AGENTS.md` as a fallback, so one file reaches everyone; `CLAUDE.md`
 exists to use Claude Code's native `@path` imports for the same content.
 
-**ADR-002: skills fan out by symlink, not by copy.** The canonical copy of every
-skill lives in `docs/skills/`. `scripts/bootstrap.sh` links each skill into the
-skill directories the installed harnesses expect (`.claude/skills/` for Claude
-Code, `.opencode/skills/` for OpenCode, and so on). One copy means one place to
-fix; symlinks mean no stale per-harness duplicates. The link targets are
-machine-local state and are gitignored.
+**ADR-002: one skills directory, many committed doors.** The canonical copy of
+every skill lives in `docs/skills/`. Each harness reads skills from its own
+project directory (`.claude/skills/` for Claude Code, `.codex/skills/` for
+Codex CLI, `.opencode/skills/` for OpenCode, `.github/skills/` for Copilot),
+and in this repository those four directories are committed relative symlinks
+to `docs/skills`. One copy, one place to fix, and a fresh clone serves every
+harness with zero setup; the Copilot coding agent receives the same skills
+when it checks the repository out on github.com. `scripts/bootstrap.sh`
+verifies and repairs the links (Windows checkouts without symlink support
+materialize them as text files; the script repairs that) and can optionally
+wire user-level skill directories for your other projects (`--user`).
 
 **ADR-003: Superpowers is referenced and pinned, not vendored.** Superpowers is
 a 289k-star, MIT-licensed skill framework with native plugin distribution for

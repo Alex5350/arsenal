@@ -11,6 +11,10 @@ AGENTS.md                     universal entry every harness reads
 CLAUDE.md                     Claude Code adapter (@imports docs/)
 .github/copilot-instructions.md   Copilot adapter
 opencode.json                 OpenCode config: tier agents wired to the hub
+.claude/skills -> ../docs/skills   } each harness's project skills
+.codex/skills  -> ../docs/skills   } directory, committed as a relative
+.opencode/skills -> ../docs/skills } symlink to the one canonical library
+.github/skills -> ../docs/skills   }
 docs/                         the hub (single source of truth)
 scripts/                      bootstrap, validators, work-item dispatcher
 Makefile                      make verify = the same checks CI runs
@@ -32,15 +36,21 @@ adapter, add them to `docs/` and link instead.
 
 1. Canonical source: `docs/skills/<name>/SKILL.md` (Agent Skills standard:
    `name` + `description` frontmatter, progressive disclosure).
-2. `scripts/bootstrap.sh` symlinks each skill into every detected harness's
-   skills directory (`.claude/skills/`, `.opencode/skills/`, `~/.codex/skills`).
-   Targets are gitignored machine state.
-3. `scripts/validate-skills.sh` enforces the authoring rules (frontmatter,
+2. Each harness's project skills directory (`.claude/skills`, `.codex/skills`,
+   `.opencode/skills`, `.github/skills` for Copilot) is a committed relative
+   symlink to `docs/skills`, so every harness's native skill discovery
+   resolves to the one library. A fresh clone works with zero setup, and the
+   Copilot coding agent sees the same skills on github.com.
+3. `scripts/bootstrap.sh` verifies and repairs those links (including
+   Windows checkout placeholders) and, with `--user`, links the skills into
+   `~/.claude/skills`, `~/.codex/skills`, and `~/.copilot/skills` for your
+   other projects.
+4. `scripts/validate-skills.sh` enforces the authoring rules (frontmatter,
    kebab-case name matching the directory, description 20 to 1024 chars,
    non-empty body). CI runs it; so does `make verify`.
 
-Adding a harness means one line in the bootstrap mapping table and a guide
-in `docs/harness/`; see the playbook there.
+Adding a harness means one line in the bootstrap mapping table, a committed
+relative symlink, and a guide in `docs/harness/`; see the playbook there.
 
 ## Script contracts
 
@@ -48,7 +58,7 @@ in `docs/harness/`; see the playbook there.
 | --- | --- | --- |
 | `validate-skills.sh` | every SKILL.md conforms | at least one violation, listed |
 | `check-links.sh` | all relative md links resolve | broken links listed as file:line |
-| `bootstrap.sh` | skills linked (or dry-run reported) | misuse or missing docs/skills |
+| `bootstrap.sh` | project links verified/repaired (plus user wiring with `--user`) | misuse or missing docs/skills |
 | `work-item.sh` | tracker operation succeeded | backend error with remediation hint |
 
 `work-item.sh` dispatches on `WORK_BACKEND` (`gh`, `jira`, `ado`), loads
@@ -99,6 +109,9 @@ make bootstrap   # wire skills into detected harnesses (--dry-run first)
 
 ## Known limitations
 
+- Windows checkouts without `core.symlinks` materialize the four skills
+  symlinks as text files; run `scripts/bootstrap.sh` from a POSIX shell
+  (Git Bash) to repair them.
 - Harness skill paths and provider model names are the two fastest-drifting
   facts; both carry `Last verified` dates and live in single places (the
   bootstrap mapping table, `docs/models/routing.md`).
