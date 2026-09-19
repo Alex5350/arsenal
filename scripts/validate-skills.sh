@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Validate every docs/skills/*/SKILL.md against the Agent Skills conventions
+# Validate every .agents/skills/*/SKILL.md against the Agent Skills conventions
 # this hub follows (agentskills.io). CI runs this on every push.
 #
 # Checks per skill:
@@ -10,7 +10,7 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-skills_dir="$root/docs/skills"
+skills_dir="$root/.agents/skills"
 failures=0
 checked=0
 
@@ -24,7 +24,7 @@ skill_files=("$skills_dir"/*/SKILL.md)
 shopt -u nullglob
 
 if [ "${#skill_files[@]}" -eq 0 ]; then
-  echo "no skills found under docs/skills/" >&2
+  echo "no skills found under .agents/skills/" >&2
   exit 1
 fi
 

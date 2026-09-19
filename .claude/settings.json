@@ -1,0 +1,6 @@
+{
+  "extraKnownMarketplaces": {
+    "arsenal": { "source": { "source": "directory", "path": "./" } }
+  },
+  "enabledPlugins": { "arsenal@arsenal": true }
+}

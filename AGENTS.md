@@ -24,12 +24,15 @@ repositories keep their own tech stack; arsenal governs how agents work in it.
 5. **Track all work.** Every unit of work is mirrored to the team tracker (GitHub
    Issues, Jira, or Azure DevOps) using `docs/integrations/` and
    `scripts/work-item.sh`.
-6. **Skills are the unit of reuse.** Procedural knowledge goes in `docs/skills/` as
-   Agent Skills (SKILL.md, the open standard at agentskills.io). Each harness's
-   project skills directory (`.claude/skills`, `.codex/skills`,
-   `.opencode/skills`, `.github/skills`) is a committed symlink to
-   `docs/skills`; edit skills only in `docs/skills/`. Authoring rules:
-   `docs/skills/README.md`.
+6. **Skills are the unit of reuse.** Procedural knowledge goes in
+   `.agents/skills/` as Agent Skills (SKILL.md, the open standard at
+   agentskills.io); role agents go in `.claude/agents/`. Every harness reads
+   those folders where they are (Claude Code through the committed plugin in
+   `.claude-plugin/`), so a new skill needs no sync step. A new agent also
+   needs its `opencode.json` entry and `make sync` for
+   `.codex/agents/<name>.toml`, the only generated files; never edit those
+   by hand, CI fails when they drift. Authoring rules:
+   `docs/skills/README.md` and `docs/agents/README.md`.
 
 ## Where things live
 
@@ -40,8 +43,8 @@ repositories keep their own tech stack; arsenal governs how agents work in it.
 | Engineering standards | [docs/standards/](docs/standards/README.md) |
 | The six-phase delivery loop | [docs/workflows/](docs/workflows/README.md) |
 | Model tiers and routing | [docs/models/routing.md](docs/models/routing.md) |
-| Shared skills library | [docs/skills/](docs/skills/README.md) |
-| Role agents (researcher, planner, reviewer) | [docs/agents/](docs/agents/README.md) |
+| Shared skills library | [.agents/skills/](.agents/skills/) (rules: [docs/skills/](docs/skills/README.md)) |
+| Role agents (researcher, planner, reviewer) | [.claude/agents/](.claude/agents/) (contract: [docs/agents/](docs/agents/README.md)) |
 | Work tracking backends | [docs/integrations/](docs/integrations/README.md) |
 | Superpowers methodology layer | [docs/superpowers/](docs/superpowers/README.md) |
 

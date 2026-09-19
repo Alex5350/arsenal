@@ -1,7 +1,7 @@
 # 04 Verification
 
 Owner: **reviewer tier** (a reviewer-class model, a human, or both).
-Skill: [`test-gate`](../skills/test-gate/SKILL.md).
+Skill: [`test-gate`](../../.agents/skills/test-gate/SKILL.md).
 
 ## Entry criteria
 

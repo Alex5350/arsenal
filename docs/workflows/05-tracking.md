@@ -1,7 +1,7 @@
 # 05 Tracking
 
 Owner: **executor tier**, continuously. Skill:
-[`work-tracking`](../skills/work-tracking/SKILL.md). Backends:
+[`work-tracking`](../../.agents/skills/work-tracking/SKILL.md). Backends:
 [GitHub Issues, Jira, Azure DevOps](../integrations/README.md).
 
 ## The rule

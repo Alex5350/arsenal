@@ -1,7 +1,7 @@
 # 06 Publishing
 
 Owner: **strategist tier plus a human**. Skill:
-[`release-publish`](../skills/release-publish/SKILL.md).
+[`release-publish`](../../.agents/skills/release-publish/SKILL.md).
 
 ## Entry criteria
 

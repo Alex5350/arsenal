@@ -26,11 +26,44 @@ jobs:
       - name: Check internal markdown links
         run: ./scripts/check-links.sh
 
+      - name: No committed symlinks
+        run: |
+          if git ls-files -s | grep '^120000 '; then
+            echo "committed symlinks found (they break Windows checkouts); use real folders" >&2
+            exit 1
+          fi
+
+      - name: Generated files are in sync
+        run: ./scripts/sync.sh --check
+
+      - name: Manifests are valid
+        run: ./scripts/validate-manifests.sh
+
       - name: shellcheck
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq shellcheck
           shellcheck scripts/*.sh
+
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Validate skill frontmatter
+        run: ./scripts/validate-skills.sh
+
+      - name: Validate agent frontmatter
+        run: ./scripts/validate-agents.sh
+
+      - name: Generated files are in sync
+        run: ./scripts/sync.sh --check
+
+      - name: Manifests are valid
+        run: ./scripts/validate-manifests.sh
 
   gitleaks:
     runs-on: ubuntu-latest

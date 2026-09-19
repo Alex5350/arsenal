@@ -33,4 +33,4 @@ column configuration.
 - The Copilot coding agent works natively against issues: assign it an
   issue, it reads `AGENTS.md`, and its PR carries the gate evidence.
 - Prefer `gh pr view --json` checks over reading chat claims; CI check
-  status is the [test gate](../skills/test-gate/SKILL.md) evidence.
+  status is the [test gate](../../.agents/skills/test-gate/SKILL.md) evidence.

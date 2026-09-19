@@ -3,7 +3,7 @@
 **One shared hub for every AI coding agent on your team.**
 
 Arsenal is a template repository that centralizes agent skills, engineering
-standards, model routing, and work tracking in a single `docs/` folder that
+standards, model routing, and work tracking in one repository that
 Claude Code, Codex CLI, OpenCode, and GitHub Copilot all read. Clone it once,
 point every harness at it, and stop re-teaching each tool how your team works.
 
@@ -20,9 +20,11 @@ infrastructure is.
 
 Arsenal is that infrastructure:
 
-- **One source of truth.** Standards, workflows, model policy, and skills live in
-  `docs/`. Root-level adapter files (`AGENTS.md`, `CLAUDE.md`,
-  `.github/copilot-instructions.md`, `opencode.json`) point every harness at it.
+- **One source of truth.** Standards, workflows, and model policy live in
+  `docs/`; skills live in `.agents/skills/` and role agents in
+  `.claude/agents/`. Root-level adapter files (`AGENTS.md`, `CLAUDE.md`,
+  `.github/copilot-instructions.md`, `opencode.json`) point every harness
+  at it.
   Guidance is written once and read everywhere.
 - **A delivery loop with gates.** Research, plan, execute, verify, track,
   publish. Each phase has entry criteria, a defined owner (human or agent
@@ -44,17 +46,20 @@ Arsenal is that infrastructure:
 
 | Harness | Entry file | Skills wiring | Guide |
 | --- | --- | --- | --- |
-| Claude Code | `CLAUDE.md` (imports `docs/`) | `.claude/skills` symlink (committed) | [`docs/harness/claude-code.md`](docs/harness/claude-code.md) |
-| Codex CLI | `AGENTS.md` | `.codex/skills` symlink (committed) | [`docs/harness/codex.md`](docs/harness/codex.md) |
-| OpenCode | `AGENTS.md` + `opencode.json` | `.opencode/skills` symlink (committed) | [`docs/harness/opencode.md`](docs/harness/opencode.md) |
-| GitHub Copilot | `.github/copilot-instructions.md` (+ `AGENTS.md` for the coding agent) | `.github/skills` symlink (committed) | [`docs/harness/copilot.md`](docs/harness/copilot.md) |
+| Claude Code | `CLAUDE.md` (imports `docs/`) | `.agents/skills` via the committed plugin in `.claude-plugin/` | [`docs/harness/claude-code.md`](docs/harness/claude-code.md) |
+| Codex CLI | `AGENTS.md` | `.agents/skills` (native) | [`docs/harness/codex.md`](docs/harness/codex.md) |
+| OpenCode | `AGENTS.md` + `opencode.json` | `.agents/skills` (native) | [`docs/harness/opencode.md`](docs/harness/opencode.md) |
+| GitHub Copilot | `.github/copilot-instructions.md` (+ `AGENTS.md` for the coding agent) | `.agents/skills` (native) | [`docs/harness/copilot.md`](docs/harness/copilot.md) |
 
-Every harness's project skills directory is a committed symlink to
-`docs/skills/`, and role agents work the same way from `docs/agents/`:
-Claude Code (`.claude/agents/`), OpenCode (`.opencode/agent/`), VS Code
-Copilot (`.github/chatmodes/`) receive committed links, and Codex gets
-generated TOML (`.codex/agents/`). One canonical library each, every native
-discovery path pointed at it, working straight after clone.
+Skills and role agents live once, in real folders: `.agents/skills/` (the
+cross-tool standard location) and `.claude/agents/`. Codex, Copilot, and
+OpenCode read the skills there natively; Claude Code reads them through a
+small committed plugin (`.claude-plugin/`, `.claude/settings.json`) that
+points at the same folder. Claude Code and Copilot read the agents
+natively, OpenCode through `opencode.json` pointers, and Codex from TOML in
+`.codex/agents/` that `scripts/sync.sh` generates and CI checks for drift.
+No symlinks and no copies, so a clone works the same on macOS, Linux, and
+Windows with no setup.
 
 Any harness that reads `AGENTS.md` or the Agent Skills standard works with the
 same pattern. `docs/harness/README.md` shows how to add the next one.
@@ -65,10 +70,11 @@ same pattern. `docs/harness/README.md` shows how to add the next one.
 # 1. Create your repo from this template (green "Use this template" button) or:
 git clone https://github.com/Alex5350/arsenal.git your-repo && cd your-repo
 
-# 2. Skills already work: every harness's skills directory is a committed
-#    symlink to docs/skills. Optionally verify them, or make the skills
-#    available in your other projects too:
-scripts/bootstrap.sh          # --dry-run to preview, --user for cross-project
+# 2. Skills and agents already work: they are plain committed folders, so
+#    there is nothing to set up (Claude Code asks once to trust the folder,
+#    which enables its plugin). Optionally make the skills available in
+#    your other projects too:
+scripts/bootstrap.sh --user   # --dry-run to preview, --remove to undo
 
 # 3. Open the repo in any harness and start with:
 #    "Read AGENTS.md and begin."
@@ -96,15 +102,17 @@ docs/
   standards/         git, testing, security, code review, documentation
   workflows/         the six-phase delivery loop, phase by phase
   models/            tiered model routing policy and per-harness wiring
-  skills/            shared Agent Skills (SKILL.md, open standard)
-  agents/            shared role agents (researcher, planner, reviewer)
+  skills/            skill authoring rules (library in .agents/skills/)
+  agents/            role agent contract (agents in .claude/agents/)
   integrations/      GitHub Issues, Jira, Azure DevOps
   superpowers/       pinned Superpowers methodology layer
   templates/         starter CI workflow and tracking config
 scripts/
-  bootstrap.sh       fan shared skills out to each harness
+  sync.sh            generate the Codex agent TOMLs (--check in CI)
+  bootstrap.sh       optional: wire skills into your other projects
   work-item.sh       one command, three tracking backends
   validate-skills.sh SKILL.md frontmatter linter (CI)
+  validate-manifests.sh  plugin, marketplace, settings, opencode.json checker (CI)
   check-links.sh     internal markdown link checker (CI)
 ```
 

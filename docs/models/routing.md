@@ -41,9 +41,10 @@ quarterly. The `Last verified` date above is the contract.
 
 ## Wiring per harness
 
-The roles ship as shared agent definitions in
-[docs/agents/](../agents/README.md) (researcher, planner, reviewer),
-reaching each harness through its own door. The executor tier is your main
+The roles ship as shared agent definitions in `.claude/agents/`
+(researcher, planner, reviewer; contract in [docs/agents/](../agents/README.md)),
+read natively, through an `opencode.json` pointer, or as generated Codex
+TOML. The executor tier is your main
 session in any harness. What follows is how each harness casts models into
 those roles.
 

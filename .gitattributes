@@ -1,0 +1,4 @@
+# Check out text files with LF endings on every OS. Git for Windows defaults
+# to CRLF checkouts, which break the bash scripts and make the committed
+# Codex agent TOMLs differ byte for byte from what scripts/sync.sh generates.
+* text=auto eol=lf
