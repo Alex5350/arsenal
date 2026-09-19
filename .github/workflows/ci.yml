@@ -13,18 +13,15 @@ jobs:
 
       - name: Syntax check shell scripts
         run: |
-          for s in scripts/*.sh; do
+          for s in scripts/*.sh tests/*.sh; do
             bash -n "$s"
           done
 
-      - name: Validate skill frontmatter
-        run: ./scripts/validate-skills.sh
+      - name: Unit tests
+        run: make test-unit
 
-      - name: Validate agent frontmatter
-        run: ./scripts/validate-agents.sh
-
-      - name: Check internal markdown links
-        run: ./scripts/check-links.sh
+      - name: Integration tests
+        run: make test-integration
 
       - name: No committed symlinks
         run: |
@@ -33,17 +30,11 @@ jobs:
             exit 1
           fi
 
-      - name: Generated files are in sync
-        run: ./scripts/sync.sh --check
-
-      - name: Manifests are valid
-        run: ./scripts/validate-manifests.sh
-
       - name: shellcheck
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq shellcheck
-          shellcheck scripts/*.sh
+          shellcheck scripts/*.sh tests/*.sh
 
   windows:
     runs-on: windows-latest
@@ -64,6 +55,9 @@ jobs:
 
       - name: Manifests are valid
         run: ./scripts/validate-manifests.sh
+
+      - name: Script tests
+        run: bash tests/work-item.test.sh
 
   gitleaks:
     runs-on: ubuntu-latest

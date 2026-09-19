@@ -1,11 +1,13 @@
 # Starter CI workflow for consumer repositories (any stack).
-# Copy to .github/workflows/ci.yml in the repo created from arsenal, then
+# Copy to .github/workflows/app.yml in the repo created from arsenal (not
+# ci.yml: that name is the hub's own validation workflow, which stays), then
 # implement the two make targets the test gate depends on:
 #   make test-unit          # no network required, exit 0 = pass
 #   make test-integration   # may start local services, exit 0 = pass
+# Companion: docs/templates/release.yml (tag push -> tests -> GitHub release).
 # Docs: docs/standards/testing.md
 
-name: ci
+name: app
 
 on:
   push:

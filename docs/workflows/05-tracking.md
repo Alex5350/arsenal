@@ -18,7 +18,7 @@ in the same session that caused it.
 | research done, plan drafting | in progress | planning opens |
 | plan approved | ready / approved | plan gate passes |
 | execution underway | in progress | first commit on the work-item branch |
-| verification requested | in review | handoff note posted |
+| verification requested | in review | handoff note posted; `work-item.sh pr` opens the PR |
 | test gate green, PR merged | done / closed | merge lands |
 | published | released | tag and notes exist |
 
@@ -27,7 +27,8 @@ the mapping in this table.
 
 ## Mechanics
 
-- One command, three backends: `scripts/work-item.sh create|comment|transition|link`.
+- One command, three backends:
+  `scripts/work-item.sh create|comment|transition|link|pr|show`.
   Configuration shape: `docs/templates/work-item.example.env`.
 - IDs are stamped everywhere: branch names, commit messages, PR titles
   ([git standard](../standards/git.md)).

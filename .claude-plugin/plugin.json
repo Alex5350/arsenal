@@ -2,6 +2,10 @@
   "name": "arsenal",
   "version": "1.0.0",
   "description": "arsenal: the shared skills library, served to Claude Code from .agents/skills",
-  "author": { "name": "arsenal" },
-  "skills": ["./.agents/skills"]
+  "author": {
+    "name": "arsenal"
+  },
+  "skills": [
+    "./.agents/skills"
+  ]
 }

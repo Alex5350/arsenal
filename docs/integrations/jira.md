@@ -1,22 +1,27 @@
 # Jira backend
 
+Last verified: 2026-09.
+
 Setup: `.env` carries `JIRA_HOST` (for example `acme.atlassian.net`),
 `JIRA_EMAIL`, `JIRA_TOKEN` (API token from id.atlassian.com), and
-`JIRA_PROJECT` (project key). The script uses the REST API via curl; no
-local Jira CLI to install.
+`JIRA_PROJECT` (project key). The script uses the REST API via `curl` and
+builds every JSON body with `jq`; no local Jira CLI to install.
 
 ## What the script calls underneath
 
 | Command | Maps to |
 | --- | --- |
-| `create` | `POST /rest/api/3/issue` (summary, description; task or bug type) |
-| `comment` | `POST /rest/api/3/issue/<key>/comment` |
-| `transition` | transition id lookup, then `POST .../transitions` |
+| `create` | `POST /rest/api/3/issue` (summary, ADF description; Task, Bug, or Story type) |
+| `comment` | `POST /rest/api/3/issue/<key>/comment` (ADF body) |
+| `transition` | `GET .../transitions`, match by name, then `POST .../transitions` |
 | `link` | remote link (`POST .../remotelink`) |
+| `pr` | `gh pr create --title "<KEY> Title"`, body ending with the key on its own line (needs the `gh` CLI: the code lives on GitHub) |
+| `show` | `GET /rest/api/3/issue/<KEY>?fields=summary,status`, printed as `<KEY> <status> summary` |
 
 State names (To Do, In Progress, In Review, Done) are workflow-specific;
-`work-item.sh transition` resolves your project's transition ids at runtime,
-so it accepts human state names.
+`work-item.sh transition` reads your project's transitions at runtime and
+picks the one whose transition name or target status name equals the
+requested state, case-insensitive, so it accepts human state names.
 
 ## Notes
 
@@ -27,5 +32,6 @@ so it accepts human state names.
   `mcp_servers` in Codex's config or `.vscode/mcp.json`) is the better fit
   when you want query-style access in chats; the script remains the write
   path for agents.
-- Description bodies are plain text; the script does not attempt ADF
-  markup. Evidence pastes as preformatted text, which survives.
+- Descriptions and comments are sent as ADF (Atlassian Document Format)
+  built with `jq`, one paragraph per non-empty line, so newlines and quotes survive
+  the trip. Evidence pasted as separate lines reads as separate lines.

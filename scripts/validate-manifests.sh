@@ -11,6 +11,10 @@
 #   - plugin.json skills: at least one path, and every path exists
 #   - settings.json enabledPlugins enables every marketplace plugin as
 #     <plugin>@<marketplace>
+#   - the plugin bridge agrees on one name across files: plugin.json name ==
+#     marketplace.json name == marketplace.json plugins[0].name == the single
+#     settings.json extraKnownMarketplaces key, and enabledPlugins has
+#     <name>@<name> true (scripts/adopt.sh renames all of them together)
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -65,6 +69,25 @@ if marketplace is not None and settings is not None:
     for entry in plugins:
         key = f"{entry.get('name')}@{marketplace.get('name')}"
         if enabled.get(key) is not True:
+            fail(".claude/settings.json", f"enabledPlugins does not enable {key}")
+
+# Claude Code keys registered marketplaces by name per user, so the name must
+# be the same in every file, or a checkout can load another project's skills.
+if plugin is not None and marketplace is not None and settings is not None:
+    name = plugin.get("name")
+    if not name:
+        fail(".claude-plugin/plugin.json", "name is missing")
+    else:
+        if marketplace.get("name") != name:
+            fail(".claude-plugin/marketplace.json", f"name {marketplace.get('name')!r} != plugin.json name {name!r}")
+        plugins = marketplace.get("plugins", [])
+        if plugins and plugins[0].get("name") != name:
+            fail(".claude-plugin/marketplace.json", f"plugins[0].name {plugins[0].get('name')!r} != plugin.json name {name!r}")
+        keys = list(settings.get("extraKnownMarketplaces", {}))
+        if keys != [name]:
+            fail(".claude/settings.json", f"extraKnownMarketplaces keys {keys!r} != [{name!r}] (plugin.json name)")
+        key = f"{name}@{name}"
+        if settings.get("enabledPlugins", {}).get(key) is not True:
             fail(".claude/settings.json", f"enabledPlugins does not enable {key}")
 
 for line in failures:

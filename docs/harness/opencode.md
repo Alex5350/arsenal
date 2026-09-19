@@ -69,5 +69,6 @@ down anything the security standard would question.
   tier routing plus the three role-agent pointers.
 - Config schema lives at opencode.ai/docs; if a key renames, fix this file
   and the routing table, not the policy.
-- Superpowers for OpenCode installs by fetching `.opencode/INSTALL.md` from
-  the Superpowers repo; see [docs/superpowers/](../superpowers/README.md).
+- Superpowers for OpenCode installs as a git plugin reference in the
+  user-level `~/.config/opencode/opencode.json`; the exact line and the
+  verify command are in [docs/superpowers/](../superpowers/README.md).

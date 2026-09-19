@@ -1,7 +1,9 @@
 {
   "name": "arsenal",
   "description": "arsenal: one shared skills library for every harness",
-  "owner": { "name": "arsenal" },
+  "owner": {
+    "name": "arsenal"
+  },
   "plugins": [
     {
       "name": "arsenal",

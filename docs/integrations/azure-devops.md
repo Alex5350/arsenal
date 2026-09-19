@@ -1,19 +1,23 @@
 # Azure DevOps backend
 
+Last verified: 2026-09.
+
 Setup: the `az` CLI with the `azure-devops` extension
 (`az extension add --name azure-devops`), authenticated
 (`az login`), plus `.env` with `ADO_ORG`
 (`https://dev.azure.com/<org>`), `ADO_PROJECT`, and optionally
-`ADO_AREA_PATH`.
+`ADO_AREA_PATH` and `ADO_STORY_TYPE`.
 
 ## What the script calls underneath
 
 | Command | Maps to |
 | --- | --- |
-| `create` | `az boards work-item create` (task or bug) |
+| `create` | `az boards work-item create --type`: `--type story` becomes `User Story` (override with `ADO_STORY_TYPE`, for example `Product Backlog Item` on Scrum), `task` becomes `Task`, `bug` becomes `Bug` |
 | `comment` | `az boards work-item update --discussion` (append) |
 | `transition` | `az boards work-item update --state` |
 | `link` | `az boards work-item relation add` (hyperlink) |
+| `pr` | `gh pr create --title "AB#<id> Title"`, body ending in `AB#<id>` (needs the `gh` CLI: the code lives on GitHub; the Azure Boards GitHub app links the PR from that reference) |
+| `show` | `az boards work-item show --id <id>`, printed as `<id> <State> <Title>` |
 
 ## Mapping loop states
 

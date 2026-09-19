@@ -39,8 +39,9 @@ Arsenal is that infrastructure:
 - **The Superpowers methodology, pinned.** The open-source Superpowers skill
   library (brainstorm, plan, TDD, subagent development) is installed per
   harness from a pinned version recorded in [`docs/superpowers/`](docs/superpowers/README.md).
-- **Validated by CI.** Skill frontmatter, internal links, and shell scripts are
-  checked on every push, so the hub cannot rot quietly.
+- **Validated by CI.** Skill frontmatter, internal links, shell scripts, and
+  the tracking script's own tests are checked on every push, so the hub
+  cannot rot quietly.
 
 ## Harness support
 
@@ -64,21 +65,34 @@ Windows with no setup.
 Any harness that reads `AGENTS.md` or the Agent Skills standard works with the
 same pattern. `docs/harness/README.md` shows how to add the next one.
 
-## Quick start
+## Adopting the template
 
-```bash
-# 1. Create your repo from this template (green "Use this template" button) or:
-git clone https://github.com/Alex5350/arsenal.git your-repo && cd your-repo
+Skills and agents work from the clone: they are plain committed folders, so
+there is nothing to install (Claude Code asks once to trust the folder,
+which enables its plugin). The checklist:
 
-# 2. Skills and agents already work: they are plain committed folders, so
-#    there is nothing to set up (Claude Code asks once to trust the folder,
-#    which enables its plugin). Optionally make the skills available in
-#    your other projects too:
-scripts/bootstrap.sh --user   # --dry-run to preview, --remove to undo
+1. Create your repo from this template (green "Use this template" button)
+   or `git clone https://github.com/Alex5350/arsenal.git your-repo`.
+2. Run `scripts/adopt.sh <project-name>` (`--dry-run` previews). It renames
+   `arsenal` to your name in the three Claude Code plugin files, so two
+   projects on one machine never share a plugin registration, and copies
+   the starters that are not there yet: `docs/templates/app-ci.yml` to
+   `.github/workflows/app.yml` and `docs/templates/work-item.example.env`
+   to `.env`. It also replaces arsenal's own `AGENTS.md` with
+   `docs/templates/AGENTS.example.md` (a consumer-written `AGENTS.md` is
+   left alone); fill in the placeholders.
+3. Implement `make test-unit` and `make test-integration` for your stack;
+   the inherited Makefile defines them for the hub's own checks, so replace
+   or extend those recipes ([testing standard](docs/standards/testing.md)).
+4. Pick a tracker in `.env` (`WORK_BACKEND=gh|jira|ado`). On GitHub, set
+   `GH_REPO` or leave it unset and the script reads the `origin` remote.
+5. Install Superpowers in each harness you use, per the pinned matrix in
+   [`docs/superpowers/`](docs/superpowers/README.md).
+6. `make verify`, then open the repo in any harness and start with
+   "Read AGENTS.md and begin."
 
-# 3. Open the repo in any harness and start with:
-#    "Read AGENTS.md and begin."
-```
+Optional: `scripts/bootstrap.sh --user` makes the skills available in your
+other projects too (`--dry-run` to preview, `--remove` to undo).
 
 Humans should start at [`docs/README.md`](docs/README.md). Deep design notes
 live in [`TECHNICAL.md`](TECHNICAL.md), and terminology in
@@ -106,14 +120,16 @@ docs/
   agents/            role agent contract (agents in .claude/agents/)
   integrations/      GitHub Issues, Jira, Azure DevOps
   superpowers/       pinned Superpowers methodology layer
-  templates/         starter CI workflow and tracking config
+  templates/         starter CI and release workflows, tracking config, AGENTS.md
 scripts/
+  adopt.sh           rename the plugin and copy the starters into a new repo
   sync.sh            generate the Codex agent TOMLs (--check in CI)
   bootstrap.sh       optional: wire skills into your other projects
-  work-item.sh       one command, three tracking backends
+  work-item.sh       one command, three tracking backends (tests in tests/)
   validate-skills.sh SKILL.md frontmatter linter (CI)
   validate-manifests.sh  plugin, marketplace, settings, opencode.json checker (CI)
   check-links.sh     internal markdown link checker (CI)
+tests/               stubbed-CLI tests for work-item.sh (make test-unit)
 ```
 
 ## Built on open standards

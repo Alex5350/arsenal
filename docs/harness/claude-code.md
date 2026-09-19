@@ -40,7 +40,9 @@ locally; CI runs `scripts/validate-manifests.sh` for the same facts.
 
 When adopting the template, rename `arsenal` in the three files:
 `plugin.json` `name`, `marketplace.json` `name` and its plugin's `name`, and
-the two `settings.json` keys. This is required, not cosmetic: Claude Code
+the two `settings.json` keys; `scripts/adopt.sh <name>` does exactly this,
+and `scripts/validate-manifests.sh` fails when the four disagree. This is
+required, not cosmetic: Claude Code
 keys registered marketplaces by name per user, so two projects on one
 machine that both call theirs `arsenal` would share one registration and
 one of them would load the other's skills.
@@ -67,7 +69,8 @@ dispatch time; the committed files carry no `model:` key by design.
 - Agent Teams: lead agent strategist, workers executor, reviewer agent on
   diffs.
 - Plugins: Superpowers installs via
-  `/plugin marketplace add obra/superpowers-marketplace`; see
+  `/plugin install superpowers@claude-plugins-official` (or from
+  `obra/superpowers-marketplace`); see
   [docs/superpowers/](../superpowers/README.md) for the pinned version.
 
 ## Gates

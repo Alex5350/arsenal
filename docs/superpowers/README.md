@@ -11,20 +11,30 @@ Arsenal does not vendor Superpowers. It records, on this page, the version
 the team has validated and the install command per harness. Bump the pin
 deliberately (a PR that edits this file), never casually.
 
-**Pinned version: latest upstream, validated 2026-09. Pin an exact release
-in your consumer repo when you first install.**
+**Pinned version: 6.3.0.** Validated 2026-09-19: Claude Code 2.1.278 and
+Codex 0.155.1 on 6.3.0 (via `superpowers@claude-plugins-official`), Copilot
+CLI on 6.4.1 (via `superpowers@superpowers-marketplace`), OpenCode on
+upstream main via the git plugin reference. 6.4.1 is upstream at the time
+of writing. Pin an exact release in your consumer repo.
 
 ## Install matrix
 
 | Harness | Command |
 | --- | --- |
-| Claude Code | `/plugin marketplace add obra/superpowers-marketplace` then `/plugin install superpowers@superpowers-marketplace` |
-| Codex CLI | `/plugins` in the TUI, search "superpowers", install |
+| Claude Code | `/plugin install superpowers@claude-plugins-official` (Anthropic's official marketplace), or `/plugin marketplace add obra/superpowers-marketplace` then `/plugin install superpowers@superpowers-marketplace` |
+| Codex CLI | `/plugins` in the TUI, search "superpowers", install (`superpowers@claude-plugins-official`) |
 | Codex App | Plugins sidebar (official OpenAI marketplace) |
-| GitHub Copilot CLI | `copilot plugin marketplace add obra/superpowers-marketplace` then `copilot plugin install superpowers@superpowers-marketplace` |
-| OpenCode | ask the agent to fetch and follow `.opencode/INSTALL.md` from the Superpowers repo |
+| GitHub Copilot CLI | `copilot plugin marketplace add obra/superpowers-marketplace` then `copilot plugin install superpowers@superpowers-marketplace`; verify with `copilot skill list` |
+| OpenCode | add `"plugin": ["superpowers@git+https://github.com/obra/superpowers.git"]` to `~/.config/opencode/opencode.json` (create it with `"$schema": "https://opencode.ai/config.json"` if absent; OpenCode 2.0.4+ names the key `plugins`); verify with `opencode debug skill` |
 | Cursor | `/add-plugin superpowers` in agent chat |
 | Gemini CLI | `gemini extensions install https://github.com/obra/superpowers` |
+
+The two marketplace ids, `superpowers@superpowers-marketplace` (obra's own)
+and `superpowers@claude-plugins-official` (Anthropic's official marketplace),
+install the same `obra/superpowers` plugin; the official one may lag a
+release behind. The OpenCode git reference installs upstream main on first
+run; the upstream `.opencode/INSTALL.md` is the place to check when that
+harness changes.
 
 ## What it provides (and the loop uses)
 

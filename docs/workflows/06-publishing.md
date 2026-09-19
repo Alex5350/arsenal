@@ -15,14 +15,19 @@ artifact, a deployment, or a published document.
 2. **Notes**: changelog written for the reader of the diff: what changed,
    why, what they must do. Generated notes are a draft; the strategist edits.
 3. **Tag**: annotated tag `vX.Y.Z` on the merge commit, pushed with the
-   work-item IDs it closes referenced in the tag message.
+   work-item IDs it closes referenced in the tag message. The push triggers
+   the consumer's release workflow, started from `docs/templates/release.yml`
+   as `.github/workflows/release.yml`: tests (`make test-unit`), notes from
+   the Conventional Commits since the previous tag, GitHub Release, then the
+   post-release check.
 4. **Artifacts**: build and attach what consumers receive (packages, images,
    bundles) from CI, never from a laptop.
 5. **Publication**: push the release through the consumer's channel: GitHub
    Release, package registry, Azure DevOps pipeline, deployment.
 6. **Post-release verification**: one concrete check that the published thing
-   works from the outside (install it, hit it, run its smoke test). Record
-   the result on the release work item.
+   works from the outside (install it, hit it, run its smoke test); the
+   workflow runs the command in the `POST_RELEASE_CHECK` repository variable
+   when one is set. Record the result on the release work item.
 
 ## Gate
 

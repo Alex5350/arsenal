@@ -22,14 +22,23 @@ git tag -a vX.Y.Z -m "Release vX.Y.Z: closes <work-item ids>"
 git push origin vX.Y.Z
 ```
 
+   The tag push is what the release workflow listens for
+   (`docs/templates/release.yml`, copied to
+   `.github/workflows/release.yml` in the consumer repo): it reruns
+   `make test-unit`, drafts notes from the Conventional Commits between the
+   previous tag and this one, creates the GitHub Release, and runs the
+   post-release check named in the `POST_RELEASE_CHECK` repository variable.
 4. **Artifacts.** Everything consumers receive is built by CI and attached
-   to the release, never built on a laptop.
-5. **Publish.** Push through the consumer's channel: GitHub Release, package
-   registry, `az pipelines run`, deployment. Use the same work-item ID
-   trail so the release links back to its evidence.
+   to the release, never built on a laptop (the build step in the workflow
+   is the place).
+5. **Publish.** Push through the consumer's channel: GitHub Release (the
+   workflow's `gh release create`), package registry, `az pipelines run`,
+   deployment. Use the same work-item ID trail so the release links back to
+   its evidence.
 6. **Verify from outside.** One concrete check that the published thing
    works as a consumer sees it: install it, hit the endpoint, run the smoke
-   test. Record the result on the release work item.
+   test. The workflow runs `POST_RELEASE_CHECK` when set; record the result
+   on the release work item either way.
 
 ## Rules
 
