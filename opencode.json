@@ -1,0 +1,34 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "AGENTS.md",
+    "docs/README.md"
+  ],
+  "agent": {
+    "build": {
+      "description": "Executor tier: implements approved plans, runs gates, updates tracking",
+      "mode": "primary",
+      "model": {
+        "providerID": "REPLACE_WITH_YOUR_PROVIDER",
+        "modelID": "REPLACE_WITH_EXECUTOR_MODEL"
+      }
+    },
+    "plan": {
+      "description": "Strategist tier: research, plans, review verdicts; read-leaning",
+      "mode": "primary",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": {
+          "*": true,
+          "git push": false
+        }
+      },
+      "model": {
+        "providerID": "REPLACE_WITH_YOUR_PROVIDER",
+        "modelID": "REPLACE_WITH_STRATEGIST_MODEL"
+      },
+      "prompt": ""
+    }
+  }
+}
