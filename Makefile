@@ -5,6 +5,7 @@ verify: validate links
 
 validate:
 	./scripts/validate-skills.sh
+	./scripts/validate-agents.sh
 
 links:
 	./scripts/check-links.sh

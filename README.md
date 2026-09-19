@@ -50,8 +50,11 @@ Arsenal is that infrastructure:
 | GitHub Copilot | `.github/copilot-instructions.md` (+ `AGENTS.md` for the coding agent) | `.github/skills` symlink (committed) | [`docs/harness/copilot.md`](docs/harness/copilot.md) |
 
 Every harness's project skills directory is a committed symlink to
-`docs/skills/`: one canonical library, every native discovery path pointed
-at it, working straight after clone.
+`docs/skills/`, and role agents work the same way from `docs/agents/`:
+Claude Code (`.claude/agents/`), OpenCode (`.opencode/agent/`), VS Code
+Copilot (`.github/chatmodes/`) receive committed links, and Codex gets
+generated TOML (`.codex/agents/`). One canonical library each, every native
+discovery path pointed at it, working straight after clone.
 
 Any harness that reads `AGENTS.md` or the Agent Skills standard works with the
 same pattern. `docs/harness/README.md` shows how to add the next one.
@@ -94,6 +97,7 @@ docs/
   workflows/         the six-phase delivery loop, phase by phase
   models/            tiered model routing policy and per-harness wiring
   skills/            shared Agent Skills (SKILL.md, open standard)
+  agents/            shared role agents (researcher, planner, reviewer)
   integrations/      GitHub Issues, Jira, Azure DevOps
   superpowers/       pinned Superpowers methodology layer
   templates/         starter CI workflow and tracking config

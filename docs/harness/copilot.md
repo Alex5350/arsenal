@@ -21,6 +21,17 @@ sees the same skills when it checks the repository out on github.com;
 nothing extra to install. `scripts/bootstrap.sh --user` links them into
 `~/.copilot/skills` for your other projects.
 
+## Role agents
+
+VS Code discovers custom agents (chat modes) as `.chatmode.md` files; the
+shareable location is `.github/chatmodes/`. Here that directory carries
+committed per-file symlinks to [`docs/agents/`](../agents/README.md):
+`researcher.chatmode.md`, `planner.chatmode.md`, `reviewer.chatmode.md`,
+frontmatter descriptions intact so the mode picker explains each role. Pick
+a role in the chat mode selector; the model picker casts the tier per
+`docs/models/routing.md`. (Copilot CLI in the terminal was not verified to
+read custom agents as of 2026-09; VS Code is the Copilot door for roles.)
+
 ## Model tiers
 
 - The model is chosen per session in the chat model picker; org policy can

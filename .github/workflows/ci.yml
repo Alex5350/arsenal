@@ -20,6 +20,9 @@ jobs:
       - name: Validate skill frontmatter
         run: ./scripts/validate-skills.sh
 
+      - name: Validate agent frontmatter
+        run: ./scripts/validate-agents.sh
+
       - name: Check internal markdown links
         run: ./scripts/check-links.sh
 

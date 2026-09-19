@@ -14,12 +14,14 @@
 !.claude/
 .claude/*
 !.claude/skills
+!.claude/agents
 !.codex/
 .codex/*
 !.codex/skills
 !.opencode/
 .opencode/*
 !.opencode/skills
+!.opencode/agent
 
 # Credentials never belong in git. Copy docs/templates/work-item.example.env
 # to .env and fill it locally.

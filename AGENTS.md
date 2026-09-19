@@ -41,6 +41,7 @@ repositories keep their own tech stack; arsenal governs how agents work in it.
 | The six-phase delivery loop | [docs/workflows/](docs/workflows/README.md) |
 | Model tiers and routing | [docs/models/routing.md](docs/models/routing.md) |
 | Shared skills library | [docs/skills/](docs/skills/README.md) |
+| Role agents (researcher, planner, reviewer) | [docs/agents/](docs/agents/README.md) |
 | Work tracking backends | [docs/integrations/](docs/integrations/README.md) |
 | Superpowers methodology layer | [docs/superpowers/](docs/superpowers/README.md) |
 

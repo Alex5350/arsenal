@@ -16,6 +16,17 @@ committed symlink to `docs/skills`, so project sessions see the whole
 library with zero setup. `scripts/bootstrap.sh --user` links the same
 skills into `~/.codex/skills` for your other projects.
 
+## Role agents
+
+Codex loads custom agents from `.codex/agents/<name>.toml` (project) or
+`~/.codex/agents/` (personal): TOML with `name`, `description`,
+`developer_instructions`, and optional model/sandbox keys. Codex defines
+agents in TOML rather than markdown, so `scripts/bootstrap.sh` generates
+this repository's `.codex/agents/*.toml` from the canonical
+[`docs/agents/`](../agents/README.md) files on every run; the generated
+files are gitignored and carry a do-not-edit header. Invoke roles by name
+("have the reviewer verify this") or switch threads with `/agent`.
+
 ## Model tiers
 
 - Default model: `model` in `~/.codex/config.toml` (executor default).
