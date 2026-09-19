@@ -1,3 +1,7 @@
+# Some machines carry a global gitignore that excludes CLAUDE.md (local agent
+# scratch files). Here it is the Claude Code adapter and must be committed.
+!CLAUDE.md
+
 # macOS
 .DS_Store
 
