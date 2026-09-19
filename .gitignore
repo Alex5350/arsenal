@@ -5,13 +5,21 @@
 # macOS
 .DS_Store
 
-# Harness-local wiring created by scripts/bootstrap.sh.
-# These are per-developer machines, not project state. If you later want to
-# commit shared harness config (for example .claude/settings.json for team
-# hooks), negate the specific path here.
-.claude/
-.codex/
-.opencode/skills/
+# Harness-local state (settings, history) is per-developer and untracked.
+# The skills symlinks are repo content: each harness's project skills
+# directory points at docs/skills and ships with the repository. The bare
+# directory negations are required because machines with a global ignore
+# that excludes these directories outright would otherwise block the
+# child re-inclusions below.
+!.claude/
+.claude/*
+!.claude/skills
+!.codex/
+.codex/*
+!.codex/skills
+!.opencode/
+.opencode/*
+!.opencode/skills
 
 # Credentials never belong in git. Copy docs/templates/work-item.example.env
 # to .env and fill it locally.

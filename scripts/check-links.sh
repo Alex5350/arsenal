@@ -14,7 +14,7 @@ report_broken() {
 }
 
 shopt -s nullglob
-md_files=("$root"/*.md "$root"/docs/*.md "$root"/docs/*/*.md "$root"/.github/*.md)
+md_files=("$root"/*.md "$root"/docs/*.md "$root"/docs/*/*.md "$root"/docs/*/*/*.md "$root"/.github/*.md)
 shopt -u nullglob
 
 for md in "${md_files[@]}"; do

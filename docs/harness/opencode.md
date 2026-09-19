@@ -10,9 +10,10 @@ instructions and defines the tier agents.
 
 ## How skills reach it
 
-Project skills: `.opencode/skills/<skill-id>/SKILL.md`. `scripts/bootstrap.sh`
-symlinks the library there. User-scope skills live under the opencode config
-directory; bootstrap prints every link it creates.
+Project skills: `.opencode/skills/<skill-id>/SKILL.md`. Here
+`.opencode/skills` is a committed symlink to `docs/skills`, so the library
+is discoverable the moment the repo is cloned; `scripts/bootstrap.sh`
+verifies and repairs the link.
 
 ## Model tiers
 

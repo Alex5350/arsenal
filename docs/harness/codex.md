@@ -10,10 +10,11 @@ in the format Codex expects.
 
 ## How skills reach it
 
-Codex supports the Agent Skills standard: `~/.codex/skills/<skill>/SKILL.md`
-(user scope). `scripts/bootstrap.sh` links the library there when Codex is
-installed. Verify the current path with Codex's own skills documentation if
-a release moves it; the bootstrap prints every link it creates.
+Codex discovers skills in `.codex/skills/` (project scope) and
+`~/.codex/skills/` (user scope). In this repository `.codex/skills` is a
+committed symlink to `docs/skills`, so project sessions see the whole
+library with zero setup. `scripts/bootstrap.sh --user` links the same
+skills into `~/.codex/skills` for your other projects.
 
 ## Model tiers
 

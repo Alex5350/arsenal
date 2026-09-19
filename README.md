@@ -44,10 +44,14 @@ Arsenal is that infrastructure:
 
 | Harness | Entry file | Skills wiring | Guide |
 | --- | --- | --- | --- |
-| Claude Code | `CLAUDE.md` (imports `docs/`) | `.claude/skills/` via bootstrap | [`docs/harness/claude-code.md`](docs/harness/claude-code.md) |
-| Codex CLI | `AGENTS.md` | skills dir via bootstrap | [`docs/harness/codex.md`](docs/harness/codex.md) |
-| OpenCode | `AGENTS.md` + `opencode.json` | `.opencode/skills/` via bootstrap | [`docs/harness/opencode.md`](docs/harness/opencode.md) |
-| GitHub Copilot | `.github/copilot-instructions.md` (+ `AGENTS.md` for the coding agent) | workspace skills | [`docs/harness/copilot.md`](docs/harness/copilot.md) |
+| Claude Code | `CLAUDE.md` (imports `docs/`) | `.claude/skills` symlink (committed) | [`docs/harness/claude-code.md`](docs/harness/claude-code.md) |
+| Codex CLI | `AGENTS.md` | `.codex/skills` symlink (committed) | [`docs/harness/codex.md`](docs/harness/codex.md) |
+| OpenCode | `AGENTS.md` + `opencode.json` | `.opencode/skills` symlink (committed) | [`docs/harness/opencode.md`](docs/harness/opencode.md) |
+| GitHub Copilot | `.github/copilot-instructions.md` (+ `AGENTS.md` for the coding agent) | `.github/skills` symlink (committed) | [`docs/harness/copilot.md`](docs/harness/copilot.md) |
+
+Every harness's project skills directory is a committed symlink to
+`docs/skills/`: one canonical library, every native discovery path pointed
+at it, working straight after clone.
 
 Any harness that reads `AGENTS.md` or the Agent Skills standard works with the
 same pattern. `docs/harness/README.md` shows how to add the next one.
@@ -58,8 +62,10 @@ same pattern. `docs/harness/README.md` shows how to add the next one.
 # 1. Create your repo from this template (green "Use this template" button) or:
 git clone https://github.com/Alex5350/arsenal.git your-repo && cd your-repo
 
-# 2. Wire the shared skills into every harness on your machine:
-scripts/bootstrap.sh          # add --dry-run to preview
+# 2. Skills already work: every harness's skills directory is a committed
+#    symlink to docs/skills. Optionally verify them, or make the skills
+#    available in your other projects too:
+scripts/bootstrap.sh          # --dry-run to preview, --user for cross-project
 
 # 3. Open the repo in any harness and start with:
 #    "Read AGENTS.md and begin."

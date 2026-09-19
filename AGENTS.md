@@ -25,8 +25,11 @@ repositories keep their own tech stack; arsenal governs how agents work in it.
    Issues, Jira, or Azure DevOps) using `docs/integrations/` and
    `scripts/work-item.sh`.
 6. **Skills are the unit of reuse.** Procedural knowledge goes in `docs/skills/` as
-   Agent Skills (SKILL.md, the open standard at agentskills.io). See
-   `docs/skills/README.md` for authoring rules.
+   Agent Skills (SKILL.md, the open standard at agentskills.io). Each harness's
+   project skills directory (`.claude/skills`, `.codex/skills`,
+   `.opencode/skills`, `.github/skills`) is a committed symlink to
+   `docs/skills`; edit skills only in `docs/skills/`. Authoring rules:
+   `docs/skills/README.md`.
 
 ## Where things live
 

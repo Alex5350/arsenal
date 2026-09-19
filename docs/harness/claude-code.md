@@ -11,11 +11,12 @@ native behavior since Claude Code 2.1.277.
 
 ## How skills reach it
 
-Project skills: `.claude/skills/<skill>/SKILL.md`. `scripts/bootstrap.sh`
-symlinks every `docs/skills/*` directory there. Personal (cross-project)
-skills live in `~/.claude/skills/`. Skills are discovered by name and
-description and loaded on demand (progressive disclosure), so the library
-costs nothing until used.
+Project skills: `.claude/skills/<skill>/SKILL.md`. Here `.claude/skills` is
+a committed symlink to `docs/skills`, so the library is discoverable the
+moment the repo is cloned. Personal (cross-project) skills live in
+`~/.claude/skills/`, which `scripts/bootstrap.sh --user` can wire. Skills
+are discovered by name and description and loaded on demand (progressive
+disclosure), so the library costs nothing until used.
 
 ## Model tiers
 
@@ -42,6 +43,6 @@ harder than convention.
   stays canonical.
 - Skills, slash commands, and plugins overlap; in this repo, procedural
   knowledge is skills only, so one mechanism exists to maintain.
-- `.claude/` is gitignored here because bootstrap generates it; commit
-  `settings.json` deliberately (and negate it in `.gitignore`) only if the
-  team adopts shared hooks.
+- `.claude/` contents other than the committed skills symlink (settings,
+  history) are gitignored; commit `settings.json` deliberately (and negate
+  it in `.gitignore`) only if the team adopts shared hooks.
