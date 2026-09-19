@@ -52,3 +52,52 @@ standard works with the same three steps:
    Never add a symlink or a copy.
 3. **Guide**: add `docs/harness/<tool>.md` answering the same five
    questions, update the matrix above, and link it from the root README.
+
+## AI resource sharing
+
+[View the self-contained SVG](../assets/ai-resources-sharing.svg) (readable at
+1000px wide). Repository sharing uses **zero symlinks and zero skill copies**.
+Read arrows point to their inputs; the generated-file arrow points to its output.
+Entry-file pointer details appear inside the instruction nodes.
+
+```mermaid
+flowchart TB
+  subgraph S["Skills — one canonical folder"]
+    direction LR
+    SC["Claude Code (.claude)"] -->|native read| P["Committed plugin bridge<br/>.claude/settings.json<br/>.claude-plugin/marketplace.json<br/>.claude-plugin/plugin.json"]
+    P -.->|committed config pointer| SK["Canonical skills<br/>.agents/skills"]
+    SX["Codex CLI (.codex)"] -->|native read| SK
+    SG["Copilot (.github)"] -->|native read| SK
+    SO["OpenCode"] -->|native read| SK
+  end
+  subgraph A["Role agents — one canonical Markdown source"]
+    direction LR
+    AC["Claude Code (.claude)"] -->|native read| AG["Canonical agents<br/>.claude/agents/&lt;name&gt;.md"]
+    AP["Copilot (CLI + VS Code)"] -->|native read| AG
+    AO["OpenCode"] -->|native read| OP["opencode.json<br/>prompt: {file:./.claude/agents/&lt;name&gt;.md}"]
+    OP -.->|committed config pointer| AG
+    AX["Codex CLI (.codex)"] -->|native read| TOML[".codex/agents/*.toml<br/>Committed output; trusted projects"]
+    AG ==>|generated file: scripts/sync.sh| TOML
+  end
+  subgraph I["Instructions — entry files and their pointers"]
+    direction LR
+    IC["Claude Code"] -->|native read| CM["CLAUDE.md<br/>@imports docs/README.md + docs/harness/claude-code.md"]
+    IU["Codex CLI + OpenCode<br/>Copilot coding agent<br/>Claude Code (fallback if CLAUDE.md is absent)"] -->|native read| AM["AGENTS.md<br/>Universal entry"]
+    IG["Copilot (VS Code)"] -->|native read| CI[".github/copilot-instructions.md<br/>Defers to AGENTS.md and docs/"]
+    IO["OpenCode"] -->|native read| OI["opencode.json instructions<br/>Merges docs/README.md into instructions"]
+  end
+  N["Repository sharing: zero symlinks and zero skill copies<br/>Optional user-level bootstrap links are outside this view"]
+  classDef canonical fill:#eaf5ef,stroke:#478568,color:#182c3c;
+  classDef config fill:#f3effa,stroke:#9b8ab7,color:#182c3c;
+  classDef generated fill:#fff3e7,stroke:#bb8759,color:#182c3c;
+  class SK,AG canonical;
+  class P,OP config;
+  class TOML generated;
+```
+
+Claude's plugin registers after trust and the first session; later sessions load
+skills. A checkout with no earlier session needs `claude -p --plugin-dir .`.
+Copilot's native agent read is documented for CLI and VS Code; coding-agent
+support for `.claude/agents` is undocumented. These qualifications come from the
+[Claude guide](claude-code.md) and [Copilot guide](copilot.md); the sharing design
+is recorded in [ADR-002](../ARCHITECTURE.md) and [TECHNICAL.md](../../TECHNICAL.md).

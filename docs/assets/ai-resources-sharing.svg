@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1600" viewBox="0 0 1000 1600" role="img" aria-labelledby="title desc">
+  <title id="title">How arsenal shares AI resources across four harnesses</title>
+  <desc id="desc">Skills live once in .agents/skills, and role agents live once in .claude/agents. Native reads and committed config pointers connect the harnesses to those sources. Only Codex agent TOML is generated, by scripts/sync.sh. Repository sharing uses zero symlinks and zero skill copies. Instruction entry files are shown separately.</desc>
+  <defs>
+    <marker id="native" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#24526b"/></marker>
+    <marker id="pointer" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#655093"/></marker>
+    <marker id="generated" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#95531d"/></marker>
+  </defs>
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #182c3c; }
+    .title { font-size: 30px; font-weight: 700; }
+    .heading { font-size: 21px; font-weight: 700; }
+    .body { font-size: 16px; }
+    .small { font-size: 14px; }
+    .label { font-size: 14px; font-weight: 600; }
+    .code { font-family: monospace; font-size: 15px; }
+    .pointercode { font-family: monospace; font-size: 14px; }
+    .strong { font-size: 17px; font-weight: 700; }
+    .panel { fill: #fff; stroke: #cbd5df; }
+    .harness { fill: #f0f4f8; stroke: #bccbd7; }
+    .canonical { fill: #eaf5ef; stroke: #478568; stroke-width: 2; }
+    .config { fill: #f3effa; stroke: #9b8ab7; }
+    .output { fill: #fff3e7; stroke: #bb8759; }
+    .instruction { fill: #f6f8fa; stroke: #bccbd7; }
+    .native { fill: none; stroke: #24526b; stroke-width: 2; marker-end: url(#native); }
+    .pointer { fill: none; stroke: #655093; stroke-width: 2; stroke-dasharray: 7 4; marker-end: url(#pointer); }
+    .generated { fill: none; stroke: #95531d; stroke-width: 2; stroke-dasharray: 2 4; marker-end: url(#generated); }
+  </style>
+  <rect width="1000" height="1600" fill="#f6f8fb"/>
+  <text x="40" y="53" class="title" text-anchor="start">One library. Four harnesses.</text>
+  <text x="40" y="83" class="strong" text-anchor="start">Repository sharing: zero symlinks and zero skill copies.</text>
+  <text x="40" y="109" class="body" text-anchor="start">Read arrows point to what is read; generation points from source to output.</text>
+  <path d="M 40 140 L 88 140" class="native"/>
+  <text x="100" y="145" class="label" text-anchor="start">native read</text>
+  <path d="M 310 140 L 358 140" class="pointer"/>
+  <text x="370" y="145" class="label" text-anchor="start">committed config pointer</text>
+  <path d="M 700 140 L 748 140" class="generated"/>
+  <text x="760" y="145" class="label" text-anchor="start">generated file</text>
+  <rect x="30" y="170" width="940" height="375" rx="10" class="panel"/>
+  <text x="50" y="206" class="heading" text-anchor="start">01  Skills · edit one folder</text>
+  <rect x="775" y="232" width="175" height="284" rx="10" class="canonical"/>
+  <text x="862" y="347" class="label" text-anchor="middle">CANONICAL</text>
+  <text x="862" y="367" class="label" text-anchor="middle">SKILLS</text>
+  <text x="862" y="402" class="code" text-anchor="middle">.agents/skills</text>
+  <rect x="50" y="235" width="150" height="50" rx="10" class="harness"/>
+  <text x="125" y="257" class="strong" text-anchor="middle">Codex CLI</text>
+  <text x="125" y="276" class="small" text-anchor="middle">.codex</text>
+  <path d="M 200 260 L 775 260" class="native"/>
+  <text x="462" y="250" class="label" text-anchor="middle">native read</text>
+  <rect x="50" y="300" width="150" height="50" rx="10" class="harness"/>
+  <text x="125" y="322" class="strong" text-anchor="middle">Copilot</text>
+  <text x="125" y="341" class="small" text-anchor="middle">.github</text>
+  <path d="M 200 325 L 775 325" class="native"/>
+  <text x="462" y="315" class="label" text-anchor="middle">native read</text>
+  <rect x="50" y="365" width="150" height="50" rx="10" class="harness"/>
+  <text x="125" y="396" class="strong" text-anchor="middle">OpenCode</text>
+  <path d="M 200 390 L 775 390" class="native"/>
+  <text x="462" y="380" class="label" text-anchor="middle">native read</text>
+  <rect x="50" y="453" width="150" height="50" rx="10" class="harness"/>
+  <text x="125" y="475" class="strong" text-anchor="middle">Claude Code</text>
+  <text x="125" y="494" class="small" text-anchor="middle">.claude</text>
+  <path d="M 200 478 L 330 478" class="native"/>
+  <text x="265" y="468" class="label" text-anchor="middle">native read</text>
+  <rect x="330" y="424" width="305" height="106" rx="10" class="config"/>
+  <text x="345" y="447" class="strong" text-anchor="start">Committed plugin bridge</text>
+  <text x="345" y="469" class="code" text-anchor="start">.claude/settings.json</text>
+  <text x="345" y="491" class="code" text-anchor="start">.claude-plugin/marketplace.json</text>
+  <text x="345" y="513" class="code" text-anchor="start">.claude-plugin/plugin.json</text>
+  <path d="M 635 478 L 775 478" class="pointer"/>
+  <text x="705" y="436" class="label" text-anchor="middle">committed</text>
+  <text x="705" y="454" class="label" text-anchor="middle">config pointer</text>
+  <rect x="30" y="565" width="940" height="410" rx="10" class="panel"/>
+  <text x="50" y="601" class="heading" text-anchor="start">02  Role agents · one Markdown source</text>
+  <rect x="775" y="627" width="175" height="323" rx="10" class="canonical"/>
+  <text x="862" y="707" class="label" text-anchor="middle">CANONICAL</text>
+  <text x="862" y="727" class="label" text-anchor="middle">AGENTS</text>
+  <text x="862" y="762" class="code" text-anchor="middle">.claude/agents</text>
+  <text x="862" y="785" class="code" text-anchor="middle">&lt;name&gt;.md</text>
+  <rect x="50" y="631" width="150" height="50" rx="10" class="harness"/>
+  <text x="125" y="653" class="strong" text-anchor="middle">Claude Code</text>
+  <text x="125" y="672" class="small" text-anchor="middle">.claude</text>
+  <path d="M 200 656 L 775 656" class="native"/>
+  <text x="462" y="646" class="label" text-anchor="middle">native read</text>
+  <rect x="50" y="693" width="150" height="50" rx="10" class="harness"/>
+  <text x="125" y="715" class="strong" text-anchor="middle">Copilot</text>
+  <text x="125" y="734" class="small" text-anchor="middle">CLI + VS Code</text>
+  <path d="M 200 718 L 775 718" class="native"/>
+  <text x="462" y="708" class="label" text-anchor="middle">native read</text>
+  <rect x="50" y="783" width="150" height="50" rx="10" class="harness"/>
+  <text x="125" y="814" class="strong" text-anchor="middle">OpenCode</text>
+  <path d="M 200 808 L 330 808" class="native"/>
+  <text x="265" y="798" class="label" text-anchor="middle">native read</text>
+  <rect x="330" y="763" width="305" height="90" rx="10" class="config"/>
+  <text x="345" y="786" class="code" text-anchor="start">opencode.json</text>
+  <text x="345" y="808" class="small" text-anchor="start">prompt:</text>
+  <text x="345" y="828" class="pointercode" text-anchor="start">{file:./.claude/agents/&lt;name&gt;.md}</text>
+  <path d="M 635 808 L 775 808" class="pointer"/>
+  <text x="705" y="766" class="label" text-anchor="middle">committed</text>
+  <text x="705" y="784" class="label" text-anchor="middle">config pointer</text>
+  <rect x="50" y="890" width="150" height="50" rx="10" class="harness"/>
+  <text x="125" y="912" class="strong" text-anchor="middle">Codex CLI</text>
+  <text x="125" y="931" class="small" text-anchor="middle">.codex</text>
+  <path d="M 200 915 L 330 915" class="native"/>
+  <text x="265" y="905" class="label" text-anchor="middle">native read</text>
+  <rect x="330" y="877" width="305" height="76" rx="10" class="output"/>
+  <text x="345" y="901" class="code" text-anchor="start">.codex/agents/*.toml</text>
+  <text x="345" y="926" class="small" text-anchor="start">Committed output · trusted projects</text>
+  <path d="M 775 915 L 635 915" class="generated"/>
+  <text x="705" y="883" class="label" text-anchor="middle">generated file</text>
+  <text x="705" y="902" class="small" text-anchor="middle">scripts/sync.sh</text>
+  <rect x="30" y="995" width="940" height="460" rx="10" class="panel"/>
+  <text x="50" y="1031" class="heading" text-anchor="start">03  Instructions · entry files and their pointers</text>
+  <rect x="50" y="1050" width="250" height="68" rx="10" class="harness"/>
+  <text x="65" y="1076" class="body" text-anchor="start">Claude Code</text>
+  <path d="M 300 1084.0 L 470 1084.0" class="native"/>
+  <text x="385" y="1074.0" class="label" text-anchor="middle">native read</text>
+  <rect x="470" y="1050" width="480" height="68" rx="10" class="instruction"/>
+  <text x="486" y="1076" class="code" text-anchor="start">CLAUDE.md</text>
+  <text x="486" y="1098" class="small" text-anchor="start">@imports docs/README.md + docs/harness/claude-code.md</text>
+  <rect x="50" y="1134" width="250" height="90" rx="10" class="harness"/>
+  <text x="65" y="1160" class="body" text-anchor="start">Codex CLI + OpenCode</text>
+  <text x="65" y="1182" class="body" text-anchor="start">Copilot coding agent</text>
+  <text x="65" y="1204" class="body" text-anchor="start">Claude Code (fallback)</text>
+  <path d="M 300 1179.0 L 470 1179.0" class="native"/>
+  <text x="385" y="1169.0" class="label" text-anchor="middle">native read</text>
+  <rect x="470" y="1134" width="480" height="90" rx="10" class="instruction"/>
+  <text x="486" y="1160" class="code" text-anchor="start">AGENTS.md</text>
+  <text x="486" y="1182" class="small" text-anchor="start">Universal entry; Claude fallback if CLAUDE.md is absent</text>
+  <rect x="50" y="1240" width="250" height="68" rx="10" class="harness"/>
+  <text x="65" y="1266" class="body" text-anchor="start">Copilot (VS Code)</text>
+  <path d="M 300 1274.0 L 470 1274.0" class="native"/>
+  <text x="385" y="1264.0" class="label" text-anchor="middle">native read</text>
+  <rect x="470" y="1240" width="480" height="68" rx="10" class="instruction"/>
+  <text x="486" y="1266" class="code" text-anchor="start">.github/copilot-instructions.md</text>
+  <text x="486" y="1288" class="small" text-anchor="start">Defers to AGENTS.md and docs/</text>
+  <rect x="50" y="1324" width="250" height="68" rx="10" class="harness"/>
+  <text x="65" y="1350" class="body" text-anchor="start">OpenCode</text>
+  <path d="M 300 1358.0 L 470 1358.0" class="native"/>
+  <text x="385" y="1348.0" class="label" text-anchor="middle">native read</text>
+  <rect x="470" y="1324" width="480" height="68" rx="10" class="instruction"/>
+  <text x="486" y="1350" class="code" text-anchor="start">opencode.json instructions</text>
+  <text x="486" y="1372" class="small" text-anchor="start">Merges docs/README.md into instructions</text>
+  <text x="50" y="1433" class="small" text-anchor="start">Entry-file pointer details are written inside each destination box.</text>
+  <text x="40" y="1490" class="small" text-anchor="start">Claude plugin: trust + first session register it; later sessions load skills.</text>
+  <text x="40" y="1512" class="small" text-anchor="start">For a checkout with no earlier session, use claude -p --plugin-dir .</text>
+  <text x="40" y="1534" class="small" text-anchor="start">Copilot coding-agent reads of .claude/agents are undocumented; CLI + VS Code are native.</text>
+  <text x="40" y="1556" class="small" text-anchor="start">Zero symlinks applies to repository sharing; optional user-level bootstrap links are outside this view.</text>
+  <text x="40" y="1578" class="small" text-anchor="start">Sources: TECHNICAL.md · docs/ARCHITECTURE.md ADR-002 · docs/harness/ guides (2026-09).</text>
+</svg>
