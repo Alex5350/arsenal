@@ -15,6 +15,10 @@ opencode.json                 OpenCode config: tier agents wired to the hub
 .codex/skills  -> ../docs/skills   } directory, committed as a relative
 .opencode/skills -> ../docs/skills } symlink to the one canonical library
 .github/skills -> ../docs/skills   }
+.claude/agents/<name>.md -> ../../docs/agents/<name>.md  } per-file role
+.opencode/agent/<name>.md -> ../../docs/agents/<name>.md } agent links,
+.github/chatmodes/<name>.chatmode.md -> ../../docs/agents/<name>.md } committed
+.codex/agents/<name>.toml    generated from docs/agents (gitignored)
 docs/                         the hub (single source of truth)
 scripts/                      bootstrap, validators, work-item dispatcher
 Makefile                      make verify = the same checks CI runs
@@ -52,13 +56,29 @@ adapter, add them to `docs/` and link instead.
 Adding a harness means one line in the bootstrap mapping table, a committed
 relative symlink, and a guide in `docs/harness/`; see the playbook there.
 
+## Agent pipeline
+
+1. Canonical source: `docs/agents/<name>.md`, frontmatter limited to `name`
+   and `description` (the only keys every consumer reads; `model`, `tools`,
+   and `mode` are per-harness formats and live in no shared file).
+2. Markdown doors are committed per-file symlinks (`.claude/agents/`,
+   `.opencode/agent/`, `.github/chatmodes/`), one per agent, so harness
+   scanners never see the shelf README. `scripts/bootstrap.sh` creates and
+   repairs them; commit new links when adding an agent.
+3. Codex's door is generated: `.codex/agents/<name>.toml` (TOML with
+   `name`, `description`, `developer_instructions`) regenerated from the
+   markdown on every bootstrap run; gitignored, never edited by hand.
+4. `scripts/validate-agents.sh` enforces the authoring rules and rejects
+   per-harness keys. CI and `make verify` run it.
+
 ## Script contracts
 
 | Script | Exit 0 means | Exit 1 means |
 | --- | --- | --- |
 | `validate-skills.sh` | every SKILL.md conforms | at least one violation, listed |
+| `validate-agents.sh` | every agent file conforms | at least one violation, listed |
 | `check-links.sh` | all relative md links resolve | broken links listed as file:line |
-| `bootstrap.sh` | project links verified/repaired (plus user wiring with `--user`) | misuse or missing docs/skills |
+| `bootstrap.sh` | project doors verified/repaired, codex tomls regenerated (plus user wiring with `--user`) | misuse or missing docs/skills |
 | `work-item.sh` | tracker operation succeeded | backend error with remediation hint |
 
 `work-item.sh` dispatches on `WORK_BACKEND` (`gh`, `jira`, `ado`), loads
@@ -90,6 +110,11 @@ Deliberate choices:
 
 **Add a skill**: `docs/skills/<name>/SKILL.md`, description written last
 (it is the trigger); `make verify`; PR per the PR template.
+
+**Add a role agent**: `docs/agents/<name>.md` (frontmatter: `name` and
+`description` only); run `scripts/bootstrap.sh` and commit the three
+markdown door links it creates; `make verify`; PR. Rules and rationale:
+[docs/agents/README.md](docs/agents/README.md).
 
 **Add a tracking backend**: implement the four subcommands in
 `scripts/work-item.sh` (pattern: `<backend>_<op>` functions plus dispatch),

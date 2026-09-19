@@ -25,6 +25,7 @@ point. It sends you to the right shelf below.
 | [`workflows/`](workflows/README.md) | The six-phase loop: research, planning, execution, verification, tracking, publishing |
 | [`models/`](models/routing.md) | Tiered model routing: strategist, executor, reviewer, and the per-harness wiring |
 | [`skills/`](skills/README.md) | The shared Agent Skills library, authored to the open SKILL.md standard |
+| [`agents/`](agents/README.md) | Shared role agents (researcher, planner, reviewer), one definition wired into every harness |
 | [`integrations/`](integrations/README.md) | Work tracking backends: GitHub Issues, Jira, Azure DevOps |
 | [`superpowers/`](superpowers/README.md) | The pinned Superpowers methodology layer: what it provides, what arsenal adds on top |
 | [`templates/`](templates/) | Copy-and-adapt starters: application CI workflow, tracking config |

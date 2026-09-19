@@ -41,6 +41,12 @@ quarterly. The `Last verified` date above is the contract.
 
 ## Wiring per harness
 
+The roles ship as shared agent definitions in
+[docs/agents/](../agents/README.md) (researcher, planner, reviewer),
+reaching each harness through its own door. The executor tier is your main
+session in any harness. What follows is how each harness casts models into
+those roles.
+
 **Claude Code.** `/model` sets the session tier; subagents declare their own
 `model:` field, so a plan-review subagent can run the strategist while the
 main session stays executor. Set both once per project and let the

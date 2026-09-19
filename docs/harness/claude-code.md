@@ -18,12 +18,21 @@ moment the repo is cloned. Personal (cross-project) skills live in
 are discovered by name and description and loaded on demand (progressive
 disclosure), so the library costs nothing until used.
 
+## Role agents
+
+Claude Code discovers subagents in `.claude/agents/<name>.md` (project) or
+`~/.claude/agents/` (personal). Here `.claude/agents` carries committed
+per-file symlinks to [`docs/agents/`](../agents/README.md): researcher,
+planner, and reviewer arrive with the clone, descriptions intact so
+auto-delegation works. Assign each a model with `/model` at dispatch time
+or a session-scoped `model:` override when you replace a link with a real
+file for that purpose.
+
 ## Model tiers
 
 - `/model` sets the session model (executor default).
-- Subagents declare their own model in their frontmatter: define a
-  strategist plan-review subagent and a reviewer subagent per
-  `docs/models/routing.md`.
+- Subagents may declare `model:` in frontmatter (or `inherit`); the shared
+  agent files omit it deliberately so one definition serves every harness.
 - Agent Teams: lead agent strategist, workers executor, reviewer agent on
   diffs.
 - Plugins: Superpowers installs via

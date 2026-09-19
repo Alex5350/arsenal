@@ -15,6 +15,14 @@ Project skills: `.opencode/skills/<skill-id>/SKILL.md`. Here
 is discoverable the moment the repo is cloned; `scripts/bootstrap.sh`
 verifies and repairs the link.
 
+## Role agents
+
+OpenCode loads custom agents from `.opencode/agent/<name>.md` (markdown,
+frontmatter `description` plus optional `mode`/`model`/`tools`, body as the
+system prompt) or `~/.config/opencode/agent/`. Here `.opencode/agent`
+carries committed per-file symlinks to
+[`docs/agents/`](../agents/README.md): researcher, planner, reviewer.
+
 ## Model tiers
 
 `opencode.json` defines named agents with a model each. The shipped shape:
@@ -22,10 +30,13 @@ verifies and repairs the link.
 - `build` (primary): executor model, full tools
 - `plan`: strategist model, read-leaning, used for planning and review
 
-Set the model ids to your pinned picks from `docs/models/routing.md`; the
-committed file uses clearly-marked placeholder ids so nothing silently
-spends the wrong budget. OpenCode can use any provider configured in its
-providers section, which is the whole point of routing by role here.
+The shared role-agent files omit the `model` key (its value format is
+per-harness); pin models in `opencode.json` or copy a role into a local
+agent file with a `model` override when you want it bound. Set the model
+ids to your pinned picks from `docs/models/routing.md`; the committed file
+uses clearly-marked placeholder ids so nothing silently spends the wrong
+budget. OpenCode can use any provider configured in its providers section,
+which is the whole point of routing by role here.
 
 ## Gates
 
