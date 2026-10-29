@@ -12,8 +12,9 @@
 #   scripts/work-item.sh show       <id>
 #   WORK_BACKEND=gh|jira|ado selects the backend (.env or environment)
 #
-# Configuration: .env in the repo root, then .env in the current directory
-# (the latter wins); shape in docs/templates/work-item.example.env.
+# Configuration: .env in the repo root only (it is executed as shell, so a
+# .env in some other current directory is never loaded); shape in
+# docs/templates/work-item.example.env.
 # Needs jq. gh: the gh CLI; GH_REPO, or the checkout's origin when unset.
 # jira: curl. ado: the az CLI with the azure-devops extension. pr needs the
 # gh CLI on every backend, because the pull request lives on GitHub.
@@ -21,7 +22,7 @@ set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-usage() { sed -n '2,19p' "$0"; }
+usage() { sed -n '2,20p' "$0"; }
 die() { echo "error: $*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null 2>&1 || die "$2"; }
 
@@ -30,10 +31,6 @@ need() { command -v "$1" >/dev/null 2>&1 || die "$2"; }
 if [ -f "$root/.env" ]; then
   # shellcheck source=/dev/null
   . "$root/.env"
-fi
-if [ -f "$PWD/.env" ] && ! [ "$PWD/.env" -ef "$root/.env" ]; then
-  # shellcheck source=/dev/null
-  . "$PWD/.env"
 fi
 
 backend="${WORK_BACKEND:-gh}"

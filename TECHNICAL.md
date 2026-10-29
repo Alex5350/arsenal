@@ -116,8 +116,8 @@ there, the way the Claude Code plugin does. Either way, a guide in
 | `adopt.sh <name> [--dry-run]` | `arsenal` renamed to `<name>` in the three plugin files (JSON rewritten with Python, never `sed`), the starter files copied where absent (`AGENTS.md` replaced while it is still arsenal's), and the remaining manual steps printed; idempotent | exit 2 on a usage error (missing or invalid name, `^[a-z0-9][a-z0-9-]*$`, or an unknown flag); exit 1 when neither `python3` nor `python` is found |
 
 `work-item.sh` dispatches on `WORK_BACKEND` (`gh`, `jira`, `ado`), loads
-`.env` from the repo root and then from the current directory when that is
-a different file (the nearer one wins), and is the only sanctioned caller
+`.env` from the repo root only (it is executed as shell, so a `.env` in the
+current directory is deliberately never loaded), and is the only sanctioned caller
 of `gh` / Jira REST / `az boards` in the whole loop. Backends implement
 `create`, `comment`, `transition`, `link`, `pr`, `show`. The GitHub backend
 shells to `gh`, infers `GH_REPO` from the `origin` remote when unset, maps

@@ -19,8 +19,8 @@ on GitHub.
 
 Selection: `WORK_BACKEND=gh|jira|ado` in `.env` (shape:
 [`templates/work-item.example.env`](../templates/work-item.example.env)).
-The script loads `.env` from the repository root, then from the current
-directory when that is a different file, so a nested project can override.
+The script loads `.env` from the repository root only. That file is executed
+as shell, so a `.env` in the current directory is deliberately never loaded.
 Never commit `.env`; see the [security standard](../standards/security.md).
 
 ## Choosing a backend

@@ -460,12 +460,13 @@ assert_no_log "^az .*--project"
 assert_eq "$out" "42 Active Title" "show output"
 end
 
-begin "10 .env in the current directory overrides the repo root's"
+begin "10 .env in the current directory is never executed (only the repo root's)"
 printf 'GH_REPO=root/repo\n' >"$TMP/repo/.env"
-printf 'GH_REPO=cwd/repo\n' >"$TMP/cwd/.env"
+printf 'GH_REPO=cwd/repo\necho executed >>"%s"\n' "$TMP/cwd-executed" >"$TMP/cwd/.env"
 run_wi gh comment 7 "note"
 assert_status 0
-assert_log "^gh issue comment 7 .*--repo cwd/repo( |$)"
+assert_log "^gh issue comment 7 .*--repo root/repo( |$)"
+assert_eq "$( [ -e "$TMP/cwd-executed" ] && echo executed || echo no )" "no" "cwd .env executed"
 end
 
 begin "10 .env in the repo root alone is used"
