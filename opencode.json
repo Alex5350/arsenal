@@ -8,27 +8,34 @@
     "build": {
       "description": "Executor tier: implements approved plans, runs gates, updates tracking",
       "mode": "primary",
-      "model": {
-        "providerID": "REPLACE_WITH_YOUR_PROVIDER",
-        "modelID": "REPLACE_WITH_EXECUTOR_MODEL"
-      }
+      "model": "REPLACE_WITH_YOUR_PROVIDER/REPLACE_WITH_EXECUTOR_MODEL"
     },
     "plan": {
       "description": "Strategist tier: research, plans, review verdicts; read-leaning",
       "mode": "primary",
-      "tools": {
-        "write": false,
-        "edit": false,
+      "model": "REPLACE_WITH_YOUR_PROVIDER/REPLACE_WITH_STRATEGIST_MODEL",
+      "permission": {
+        "edit": "deny",
         "bash": {
-          "*": true,
-          "git push": false
+          "*": "allow",
+          "git push*": "deny"
         }
-      },
-      "model": {
-        "providerID": "REPLACE_WITH_YOUR_PROVIDER",
-        "modelID": "REPLACE_WITH_STRATEGIST_MODEL"
-      },
-      "prompt": ""
+      }
+    },
+    "researcher": {
+      "description": "Strategist tier agent that answers questions with cited sources by fanning out sub-agents and converging on a findings document. Use during the research phase of the loop, when comparing libraries, tools, or technologies, or when investigating a failure across code, docs, and prior incidents.",
+      "mode": "subagent",
+      "prompt": "{file:./.claude/agents/researcher.md}"
+    },
+    "planner": {
+      "description": "Strategist tier agent that reads research and code, then writes a standalone implementation plan with testable, session-sized tasks for the executor tier. Use during the planning phase of the loop, before any non-trivial implementation, or when asked for a plan or an implementation approach.",
+      "mode": "subagent",
+      "prompt": "{file:./.claude/agents/planner.md}"
+    },
+    "reviewer": {
+      "description": "Reviewer tier agent that re-runs the test gates in a clean checkout, reads every changed line against the plan, and records an evidence-backed verdict on the work item. Use to verify any execution handoff, when a pull request claims to be green, or before merging risky changes.",
+      "mode": "subagent",
+      "prompt": "{file:./.claude/agents/reviewer.md}"
     }
   }
 }

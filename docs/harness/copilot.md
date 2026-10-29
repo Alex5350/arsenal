@@ -13,24 +13,28 @@ Two surfaces, one hub:
 
 ## How skills reach it
 
-Copilot discovers workspace skills in `.github/skills/` (VS Code sessions
-and the coding agent) and personal skills in `~/.copilot/skills/`. In this
-repository `.github/skills` is a committed symlink to `docs/skills`, so VS
-Code agent sessions see the library locally and the Copilot coding agent
-sees the same skills when it checks the repository out on github.com;
-nothing extra to install. `scripts/bootstrap.sh --user` links them into
-`~/.copilot/skills` for your other projects.
+Copilot (CLI, VS Code, and the coding agent) reads project skills from
+`.agents/skills/` natively, and personal skills from `~/.agents/skills/`.
+In this repository `.agents/skills` is the canonical library, so VS Code
+and CLI sessions see it locally and the Copilot coding agent sees the same
+skills when it checks the repository out on github.com; nothing extra to
+install. `copilot skill list` shows the five under "Project skills", and
+`copilot instruction list` shows `copilot-instructions.md`, `AGENTS.md`, and
+`CLAUDE.md` (Copilot CLI 1.0.86). `scripts/bootstrap.sh --user` links the
+skills into `~/.agents/skills` for your other projects.
 
 ## Role agents
 
-VS Code discovers custom agents (chat modes) as `.chatmode.md` files; the
-shareable location is `.github/chatmodes/`. Here that directory carries
-committed per-file symlinks to [`docs/agents/`](../agents/README.md):
-`researcher.chatmode.md`, `planner.chatmode.md`, `reviewer.chatmode.md`,
-frontmatter descriptions intact so the mode picker explains each role. Pick
-a role in the chat mode selector; the model picker casts the tier per
-`docs/models/routing.md`. (Copilot CLI in the terminal was not verified to
-read custom agents as of 2026-09; VS Code is the Copilot door for roles.)
+Copilot CLI and VS Code read custom agents from `.claude/agents/*.md`
+natively (per GitHub's docs; no CLI listing exists to confirm it), so the
+canonical files (contract: [`docs/agents/`](../agents/README.md)) arrive
+with the clone: `researcher.md`, `planner.md`, `reviewer.md`, frontmatter
+descriptions intact so the agent picker explains each role. Pick a role in
+the agent selector; the model picker casts the tier per
+`docs/models/routing.md`. Whether the Copilot coding agent reads
+`.claude/agents` is undocumented as of 2026-09. VS Code chat modes
+(`.github/chatmodes/*.chatmode.md`) are legacy, replaced by custom agents,
+so this repository ships none.
 
 ## Model tiers
 

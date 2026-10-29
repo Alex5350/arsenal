@@ -1,6 +1,6 @@
 # 01 Research
 
-Owner: **strategist tier**. Skill: [`research-loop`](../skills/research-loop/SKILL.md).
+Owner: **strategist tier**. Skill: [`research-loop`](../../.agents/skills/research-loop/SKILL.md).
 
 ## Entry criteria
 

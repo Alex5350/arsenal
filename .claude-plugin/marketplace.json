@@ -1,0 +1,15 @@
+{
+  "name": "arsenal",
+  "description": "arsenal: one shared skills library for every harness",
+  "owner": {
+    "name": "arsenal"
+  },
+  "plugins": [
+    {
+      "name": "arsenal",
+      "description": "The shared skills library in .agents/skills",
+      "source": "./",
+      "strict": true
+    }
+  ]
+}

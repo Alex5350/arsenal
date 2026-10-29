@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Validate every docs/agents/*.md role definition. CI runs this on every
+# Validate every .claude/agents/*.md role definition. CI runs this on every
 # push; scripts/validate-skills.sh is the skills counterpart.
 #
-# Checks per agent (README.md is the shelf guide and is exempt):
+# Checks per agent:
 #   - closed frontmatter block opening the file
 #   - name: present, kebab-case, <= 64 chars, matches filename
 #   - description: present, 20..1024 chars
@@ -11,7 +11,7 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-agents_dir="$root/docs/agents"
+agents_dir="$root/.claude/agents"
 failures=0
 checked=0
 
@@ -25,13 +25,12 @@ agent_files=("$agents_dir"/*.md)
 shopt -u nullglob
 
 if [ "${#agent_files[@]}" -eq 0 ]; then
-  echo "no agents found under docs/agents/" >&2
+  echo "no agents found under .claude/agents/" >&2
   exit 1
 fi
 
 for agent_md in "${agent_files[@]}"; do
   name_file="$(basename "$agent_md" .md)"
-  [ "$name_file" = "README" ] && continue
   checked=$((checked + 1))
 
   if ! head -n 1 "$agent_md" | grep -qx -- '---'; then

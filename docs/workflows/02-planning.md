@@ -1,6 +1,6 @@
 # 02 Planning
 
-Owner: **strategist tier**. Skills: [`planner-executor-handoff`](../skills/planner-executor-handoff/SKILL.md),
+Owner: **strategist tier**. Skills: [`planner-executor-handoff`](../../.agents/skills/planner-executor-handoff/SKILL.md),
 Superpowers `brainstorming` and `writing-plans`.
 
 ## Entry criteria

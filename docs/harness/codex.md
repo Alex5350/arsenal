@@ -10,22 +10,26 @@ in the format Codex expects.
 
 ## How skills reach it
 
-Codex discovers skills in `.codex/skills/` (project scope) and
-`~/.codex/skills/` (user scope). In this repository `.codex/skills` is a
-committed symlink to `docs/skills`, so project sessions see the whole
-library with zero setup. `scripts/bootstrap.sh --user` links the same
-skills into `~/.codex/skills` for your other projects.
+Codex discovers project skills in `.agents/skills/` (the documented
+location), which is the canonical library itself, so project sessions see
+the whole library with zero setup and nothing is generated or synced.
+`codex debug prompt-input` lists the repository's `.agents/skills` as a
+skill root with all five skills (Codex 0.153.2). `scripts/bootstrap.sh
+--user` links the same skills into `~/.agents/skills` for your other
+projects.
 
 ## Role agents
 
-Codex loads custom agents from `.codex/agents/<name>.toml` (project) or
-`~/.codex/agents/` (personal): TOML with `name`, `description`,
-`developer_instructions`, and optional model/sandbox keys. Codex defines
-agents in TOML rather than markdown, so `scripts/bootstrap.sh` generates
-this repository's `.codex/agents/*.toml` from the canonical
-[`docs/agents/`](../agents/README.md) files on every run; the generated
-files are gitignored and carry a do-not-edit header. Invoke roles by name
-("have the reviewer verify this") or switch threads with `/agent`.
+Codex loads custom agents from `.codex/agents/<name>.toml` (project, trusted
+projects only) or `~/.codex/agents/` (personal): TOML with `name`,
+`description`, `developer_instructions`, and optional model/sandbox keys.
+Codex defines agents in TOML rather than markdown, so `scripts/sync.sh`
+generates this repository's `.codex/agents/*.toml` from the canonical
+`.claude/agents/` files (contract: [`docs/agents/`](../agents/README.md));
+the generated files are committed, checked for drift in CI
+(`scripts/sync.sh --check`), and carry a do-not-edit header. They are the
+only generated files in the repository. Invoke roles by name ("have the
+reviewer verify this") or switch threads with `/agent`.
 
 ## Model tiers
 

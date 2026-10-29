@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="3872" viewBox="0 0 1000 3872" role="img" aria-labelledby="title description">
+<title id="title">Add CSV export to the reports page: arsenal feature delivery loop</title>
+<desc id="description">A developer timeline showing research, planning, plan approval, worktree execution, independent verification, test gate, merge, and publishing. Continuous tracking runs in the right lane. Red arrows return findings to execution or planning; publishing seeds new research. S is strategist, E executor, R reviewer. Example choices are identified in the footer.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="#475569"/></marker><marker id="back" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="#a33728"/></marker><marker id="cycle" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="#5b4291"/></marker></defs>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#172b40;font-size:16px}.heading{font-size:22px;font-weight:700}.role{font-size:16px;font-weight:700;fill:#345477}.bold{font-weight:700}.skill{fill:#244f80;font-weight:700}.code{font-family:Menlo,Consolas,monospace;font-size:15px}.muted{fill:#475569}.source{font-size:15px;fill:#334155}</style>
+<rect width="1000" height="3872" fill="#f8fafc"/>
+<text x="40" y="52" style="font-size:32px;font-weight:700">One feature, from idea to release</text>
+<text x="40" y="88" style="font-size:24px;fill:#244f80">Add CSV export to the reports page</text>
+<text x="40" y="120" class="muted">Consumer application example · Six phases · Two hard gates · Three model tiers</text>
+<rect x="40" y="145" width="196" height="36" rx="9" fill="#e5effb"/>
+<text x="54" y="169" class="bold">S  Strategist</text>
+<rect x="250" y="145" width="185" height="36" rx="9" fill="#def3e9"/>
+<text x="264" y="169" class="bold">E  Executor</text>
+<rect x="449" y="145" width="185" height="36" rx="9" fill="#f0e9fa"/>
+<text x="463" y="169" class="bold">R  Reviewer</text>
+<rect x="648" y="145" width="320" height="36" rx="9" fill="#fff0cd"/>
+<text x="662" y="169" class="bold">Human  Decisions / co-sign</text>
+<text x="104" y="220" class="bold">DELIVERY TIMELINE</text>
+<text x="710" y="220" class="bold">05  TRACKING · E</text>
+<text x="104" y="244" class="muted">Arrows down: proceed only with evidence.</text>
+<text x="710" y="244" class="skill">work-tracking · continuous</text>
+<rect x="682" y="258" width="300" height="3144" rx="14" fill="#eaf4ef"/>
+<path d="M104 2352 H54 V1505 H101" fill="none" stroke="#a33728" stroke-width="2" marker-end="url(#back)"/>
+<path d="M104 2400 H30 V897 H101" fill="none" stroke="#a33728" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#back)"/>
+<path d="M104 1328 H78 V1162 H101" fill="none" stroke="#a33728" stroke-width="2" marker-end="url(#back)"/>
+<path d="M104 3340 H12 V546 H101" fill="none" stroke="#5b4291" stroke-width="2" stroke-dasharray="3 6" marker-end="url(#cycle)"/>
+<g id="idea" data-card="delivery"><desc>Sources: docs/integrations/README.md; docs/integrations/github.md; .agents/skills/work-tracking/SKILL.md</desc>
+<rect x="104" y="268" width="552" height="224" rx="12" fill="#ffffff" stroke="#c5d3df"/>
+<text x="122" y="298" class="heading">Capture the idea</text>
+<text x="122" y="323" class="role">HUMAN + E</text>
+<text x="122" y="352" class="">User story: “Add CSV export to the reports page.”</text>
+<text x="122" y="376" class="">The developer supplies intent; E creates the work item.</text>
+<text x="122" y="400" class="">Artifact: an open GitHub issue; its number is &lt;n&gt;.</text>
+<text x="122" y="424" class="code">scripts/work-item.sh create \</text>
+<text x="122" y="448" class="code">  "Add CSV export to the reports page" \</text>
+<text x="122" y="472" class="code">  --body "Context" --type story</text>
+</g>
+<g id="track-idea" data-card="tracker"><rect x="696" y="268" width="272" height="224" rx="12" fill="#f8fcf9" stroke="#b7d2c0"/>
+<text x="710" y="301" class="bold">Create → backlog</text>
+<text x="710" y="325" class="">Open issue; no state label.</text>
+<text x="710" y="373" class="">work-tracking</text>
+<text x="710" y="397" class="">One unit of work, one item.</text>
+<text x="710" y="421" class="">Use --type task for tasks.</text>
+</g>
+<path d="M658 316 H692" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+<path d="M380 494 V519" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M832 494 V519" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<g id="research" data-card="delivery"><desc>Sources: docs/workflows/01-research.md; .agents/skills/research-loop/SKILL.md</desc>
+<rect x="104" y="524" width="552" height="296" rx="12" fill="#ffffff" stroke="#c5d3df"/>
+<text x="122" y="554" class="heading">01  Research</text>
+<text x="122" y="579" class="role">STRATEGIST · S</text>
+<text x="122" y="608" class="skill">research-loop</text>
+<text x="122" y="632" class="">Frame the CSV-export question; split into 3–6 questions.</text>
+<text x="122" y="656" class="">Fan out sub-agents; each returns sources + confidence.</text>
+<text x="122" y="680" class="">Example questions: CSV behavior? Export approach?</text>
+<text x="122" y="704" class="">Test coverage? Converge and reconcile contradictions.</text>
+<text x="122" y="728" class="">Artifact: docs/research/csv-export.md</text>
+<text x="122" y="752" class="">Findings with citations, confidence, open questions,</text>
+<text x="122" y="776" class="">and a decision-ready recommendation.</text>
+<text x="122" y="800" class="">Exit: resolve every open question or create a task.</text>
+</g>
+<g id="track-research" data-card="tracker"><rect x="696" y="524" width="272" height="296" rx="12" fill="#f8fcf9" stroke="#b7d2c0"/>
+<text x="710" y="557" class="bold">S → findings + tasks</text>
+<text x="710" y="581" class="">E → state and links</text>
+<text x="710" y="629" class="">Link the research artifact.</text>
+<text x="710" y="653" class="">Open questions become</text>
+<text x="710" y="677" class="">tracked tasks, never an</text>
+<text x="710" y="701" class="">unowned “research later.”</text>
+</g>
+<path d="M658 572 H692" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+<path d="M380 822 V847" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M832 822 V847" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<g id="plan" data-card="delivery"><desc>Sources: docs/workflows/02-planning.md; .agents/skills/planner-executor-handoff/SKILL.md; docs/superpowers/README.md</desc>
+<rect x="104" y="852" width="552" height="344" rx="12" fill="#ffffff" stroke="#c5d3df"/>
+<text x="122" y="882" class="heading">02  Planning</text>
+<text x="122" y="907" class="role">STRATEGIST · S</text>
+<text x="122" y="936" class="bold">Code analysis first</text>
+<text x="122" y="960" class="">Read the findings and relevant application code paths</text>
+<text x="122" y="984" class="">yourself: the existing reports page and its tests.</text>
+<text x="122" y="1008" class="skill">Superpowers: brainstorming → writing-plans</text>
+<text x="122" y="1032" class="skill">planner-executor-handoff</text>
+<text x="122" y="1056" class="">Artifact: docs/plans/csv-export.md, with the work-item ID.</text>
+<text x="122" y="1080" class="">Example session-sized tasks: CSV generation; then</text>
+<text x="122" y="1104" class="">reports-page integration. Each has acceptance criteria,</text>
+<text x="122" y="1128" class="">a test approach, and an assigned tier.</text>
+<text x="122" y="1152" class="">Include goal/non-goals, context, test plan, risks with</text>
+<text x="122" y="1176" class="">owners/mitigations, and rollback. The plan stands alone.</text>
+</g>
+<g id="track-plan" data-card="tracker"><rect x="696" y="852" width="272" height="344" rx="12" fill="#f8fcf9" stroke="#b7d2c0"/>
+<text x="710" y="885" class="bold">S → plan artifact</text>
+<text x="710" y="909" class="">E → in progress</text>
+<text x="710" y="957" class="">Research done; planning</text>
+<text x="710" y="981" class="">opens in the same session.</text>
+<text x="710" y="1005" class="">Link research and plan.</text>
+<text x="710" y="1053" class="">GitHub label:</text>
+<text x="710" y="1077" class="">in-progress</text>
+</g>
+<path d="M658 900 H692" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+<path d="M380 1198 V1223" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M832 1198 V1223" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<g id="approve" data-card="delivery"><desc>Sources: docs/workflows/02-planning.md; .agents/skills/planner-executor-handoff/SKILL.md</desc>
+<rect x="104" y="1228" width="552" height="200" rx="12" fill="#fff5d9" stroke="#b48528"/>
+<text x="122" y="1258" class="heading">HARD GATE 1  ·  plan approved</text>
+<text x="122" y="1283" class="role">HUMAN OR SECOND S</text>
+<text x="122" y="1312" class="">Review against research: right problem, testable criteria,</text>
+<text x="122" y="1336" class="">rollback, and tasks finishable in one green session.</text>
+<text x="122" y="1360" class="">Record approval on the work item before code is written.</text>
+<text x="122" y="1384" class="">Rejected → revise the plan and seek approval again.</text>
+</g>
+<g id="track-approve" data-card="tracker"><rect x="696" y="1228" width="272" height="200" rx="12" fill="#f8fcf9" stroke="#b7d2c0"/>
+<text x="710" y="1261" class="bold">Approver → decision</text>
+<text x="710" y="1285" class="">E → ready + plan link</text>
+<text x="710" y="1333" class="">GitHub: open + ready.</text>
+<text x="710" y="1357" class="">No code before approval.</text>
+</g>
+<path d="M658 1276 H692" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+<path d="M380 1430 V1455" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M832 1430 V1455" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<g id="execute" data-card="delivery"><desc>Sources: docs/workflows/03-execution.md; docs/standards/git.md; .agents/skills/planner-executor-handoff/SKILL.md; .agents/skills/test-gate/SKILL.md; docs/models/routing.md</desc>
+<rect x="104" y="1460" width="552" height="392" rx="12" fill="#ffffff" stroke="#c5d3df"/>
+<text x="122" y="1490" class="heading">03  Execution</text>
+<text x="122" y="1515" class="role">EXECUTOR · E</text>
+<text x="122" y="1544" class="skill">Superpowers: using-git-worktrees; executing-plans</text>
+<text x="122" y="1568" class="">Read the approved plan fully; work in an isolated worktree.</text>
+<text x="122" y="1592" class="">Feature branch: gh-&lt;n&gt;-csv-export (one per work item).</text>
+<text x="122" y="1616" class="">Parallel executors never share a checkout.</text>
+<text x="122" y="1640" class="skill">test-driven-development</text>
+<text x="122" y="1664" class="">Failing test → smallest change → refactor; task by task.</text>
+<text x="122" y="1688" class="">Complete one logical task per Conventional Commit;</text>
+<text x="122" y="1712" class="">stamp the work-item ID. Every commit builds and passes</text>
+<text x="122" y="1736" class="code">make test-unit</text>
+<text x="122" y="1760" class="">Before handoff, use test-gate and also run:</text>
+<text x="122" y="1784" class="code">make test-integration</text>
+<text x="122" y="1808" class="">Artifact: diff + green local gates + handoff note</text>
+<text x="122" y="1832" class="">(built, plan deltas, reasons, and what to probe).</text>
+</g>
+<g id="track-execute" data-card="tracker"><rect x="696" y="1460" width="272" height="392" rx="12" fill="#f8fcf9" stroke="#b7d2c0"/>
+<text x="710" y="1493" class="bold">E → in progress</text>
+<text x="710" y="1517" class="">First commit starts work.</text>
+<text x="710" y="1565" class="">Comment state changes</text>
+<text x="710" y="1589" class="">and evidence as they occur.</text>
+<text x="710" y="1637" class="">Scope change? Stop;</text>
+<text x="710" y="1661" class="">comment back to S.</text>
+<text x="710" y="1685" class="">Stuck twice? Send both</text>
+<text x="710" y="1709" class="">attempts back to S.</text>
+<text x="710" y="1757" class="">Handoff → in review</text>
+<text x="710" y="1781" class="">Link issue and open PR.</text>
+</g>
+<path d="M658 1508 H692" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+<path d="M380 1854 V1879" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M832 1854 V1879" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<g id="verify" data-card="delivery"><desc>Sources: docs/workflows/04-verification.md; docs/standards/testing.md; docs/standards/code-review.md; .agents/skills/test-gate/SKILL.md; docs/superpowers/README.md</desc>
+<rect x="104" y="1884" width="552" height="344" rx="12" fill="#ffffff" stroke="#c5d3df"/>
+<text x="122" y="1914" class="heading">04  Verification</text>
+<text x="122" y="1939" class="role">REVIEWER · R</text>
+<text x="122" y="1968" class="skill">test-gate; Superpowers: verification-before-completion</text>
+<text x="122" y="1992" class="">Use an independent reviewer session; rerun in a clean</text>
+<text x="122" y="2016" class="">checkout. Author-run gates are provisional.</text>
+<text x="122" y="2040" class="code">make test-unit</text>
+<text x="122" y="2064" class="code">make test-integration</text>
+<text x="122" y="2088" class="">Audit skipped/pending/deleted tests; new behavior needs</text>
+<text x="122" y="2112" class="">a test that fails without the change. Read every changed line.</text>
+<text x="122" y="2136" class="">Review: plan conformance, tests, correctness, security,</text>
+<text x="122" y="2160" class="">maintainability, docs. Use the code-review skills.</text>
+<text x="122" y="2184" class="">Artifact: trimmed outputs, skip count, findings and verdict</text>
+<text x="122" y="2208" class="">on the work item; PR approval includes the work-item ID.</text>
+</g>
+<g id="track-verify" data-card="tracker"><rect x="696" y="1884" width="272" height="344" rx="12" fill="#f8fcf9" stroke="#b7d2c0"/>
+<text x="710" y="1917" class="bold">R → evidence + verdict</text>
+<text x="710" y="1941" class="">E → tracker state</text>
+<text x="710" y="1989" class="">Still in review;</text>
+<text x="710" y="2013" class="">approval alone does not</text>
+<text x="710" y="2037" class="">close the GitHub issue.</text>
+<text x="710" y="2085" class="">Record what would turn</text>
+<text x="710" y="2109" class="">a rejection into approval.</text>
+</g>
+<path d="M658 1932 H692" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+<path d="M380 2230 V2255" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M832 2230 V2255" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<g id="green" data-card="delivery"><desc>Sources: docs/workflows/04-verification.md; docs/standards/testing.md; .agents/skills/test-gate/SKILL.md; docs/models/routing.md</desc>
+<rect x="104" y="2260" width="552" height="248" rx="12" fill="#fff5d9" stroke="#b48528"/>
+<text x="122" y="2290" class="heading">HARD GATE 2  ·  test gate green</text>
+<text x="122" y="2315" class="role">REVIEWER · R</text>
+<text x="122" y="2344" class="">Both suites exit 0; no tests bypassed to obtain green.</text>
+<text x="122" y="2368" class="">Findings fixed or waived in writing by a human with reason.</text>
+<text x="122" y="2392" class="">RED → attach the failing case; fix, rerun, review again.</text>
+<text x="122" y="2416" class="">Scope/disputed findings → S revises plan → reapproval.</text>
+<text x="122" y="2440" class="">GREEN → approved evidence; merge may proceed.</text>
+</g>
+<g id="track-green" data-card="tracker"><rect x="696" y="2260" width="272" height="248" rx="12" fill="#f8fcf9" stroke="#b7d2c0"/>
+<text x="710" y="2293" class="bold">R → gate verdict</text>
+<text x="710" y="2317" class="">Human → reasoned waiver</text>
+<text x="710" y="2341" class="">for review findings, if any.</text>
+<text x="710" y="2389" class="">A flaky test still means</text>
+<text x="710" y="2413" class="">RED until fixed.</text>
+<text x="710" y="2437" class="">Never silently waive a gate.</text>
+</g>
+<path d="M658 2308 H692" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+<path d="M380 2510 V2535" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M832 2510 V2535" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<g id="merge" data-card="delivery"><desc>Sources: docs/standards/git.md; docs/standards/code-review.md; docs/integrations/github.md; docs/superpowers/README.md</desc>
+<rect x="104" y="2540" width="552" height="248" rx="12" fill="#ffffff" stroke="#c5d3df"/>
+<text x="122" y="2570" class="heading">Finish the branch and merge</text>
+<text x="122" y="2595" class="role">HUMAN + R / E</text>
+<text x="122" y="2624" class="skill">Superpowers: finishing-a-development-branch</text>
+<text x="122" y="2648" class="">Feature branch → PR → main (example default branch).</text>
+<text x="122" y="2672" class="">PR: what, why, tests, work-item ID, and risks to probe.</text>
+<text x="122" y="2696" class="">Only merge with green CI and reviewer approval.</text>
+<text x="122" y="2720" class="">Squash review fixups; each merged commit builds/tests.</text>
+<text x="122" y="2744" class="">Human merges in this example; artifact: the merged diff.</text>
+</g>
+<g id="track-merge" data-card="tracker"><rect x="696" y="2540" width="272" height="248" rx="12" fill="#f8fcf9" stroke="#b7d2c0"/>
+<text x="710" y="2573" class="bold">Human → merge decision</text>
+<text x="710" y="2597" class="">E → done / closed</text>
+<text x="710" y="2645" class="">PR title includes gh-&lt;n&gt;.</text>
+<text x="710" y="2669" class="">Closing keyword closes</text>
+<text x="710" y="2693" class="">the issue when merged.</text>
+<text x="710" y="2717" class="">Keep the PR/evidence trail.</text>
+</g>
+<path d="M658 2588 H692" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+<path d="M380 2790 V2815" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M832 2790 V2815" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<g id="publish" data-card="delivery"><desc>Sources: docs/workflows/06-publishing.md; .agents/skills/release-publish/SKILL.md; docs/integrations/github.md</desc>
+<rect x="104" y="2820" width="552" height="344" rx="12" fill="#ffffff" stroke="#c5d3df"/>
+<text x="122" y="2850" class="heading">06  Publishing</text>
+<text x="122" y="2875" class="role">STRATEGIST + HUMAN</text>
+<text x="122" y="2904" class="skill">release-publish</text>
+<text x="122" y="2928" class="">S prepares the version bump (consumer policy), changelog</text>
+<text x="122" y="2952" class="">and edited release notes with work-item IDs.</text>
+<text x="122" y="2976" class="">Annotated vX.Y.Z on merge commit; IDs in tag message.</text>
+<text x="122" y="3000" class="">Push tag. CI builds and attaches consumer artifacts.</text>
+<text x="122" y="3024" class="">Human always co-signs: presses publish or approves</text>
+<text x="122" y="3048" class="">the pipeline. Publish through the consumer’s channel.</text>
+<text x="122" y="3072" class="">Post-release: one concrete check from the outside</text>
+<text x="122" y="3096" class="">(install, endpoint, or smoke test); record the result.</text>
+<text x="122" y="3120" class="">Artifact: tagged release + notes + post-release evidence.</text>
+<text x="122" y="3144" class="">Include runtime rollback in the release notes.</text>
+</g>
+<g id="track-publish" data-card="tracker"><rect x="696" y="2820" width="272" height="344" rx="12" fill="#f8fcf9" stroke="#b7d2c0"/>
+<text x="710" y="2853" class="bold">S → notes + evidence</text>
+<text x="710" y="2877" class="">Human → publish approval</text>
+<text x="710" y="2901" class="">E → release link / state</text>
+<text x="710" y="2949" class="">GitHub: release notes</text>
+<text x="710" y="2973" class="">reference the issue.</text>
+<text x="710" y="2997" class="">Comment the release link</text>
+<text x="710" y="3021" class="">and post-release result</text>
+<text x="710" y="3045" class="">on the release work item.</text>
+</g>
+<path d="M658 2868 H692" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+<path d="M380 3166 V3191" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M832 3166 V3191" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<g id="next" data-card="delivery"><desc>Sources: docs/workflows/06-publishing.md; .agents/skills/release-publish/SKILL.md</desc>
+<rect x="104" y="3196" width="552" height="176" rx="12" fill="#ffffff" stroke="#c5d3df"/>
+<text x="122" y="3226" class="heading">Start the next cycle</text>
+<text x="122" y="3251" class="role">S + E</text>
+<text x="122" y="3280" class="">Within a day, file follow-ups, review debt and new questions.</text>
+<text x="122" y="3304" class="">Artifact: a research backlog for the next delivery cycle.</text>
+<text x="122" y="3328" class="">Publishing ends by beginning research again.</text>
+</g>
+<g id="track-next" data-card="tracker"><rect x="696" y="3196" width="272" height="176" rx="12" fill="#f8fcf9" stroke="#b7d2c0"/>
+<text x="710" y="3229" class="bold">E → new backlog items</text>
+<text x="710" y="3253" class="">S → next research question</text>
+<text x="710" y="3301" class="">State always follows proof.</text>
+</g>
+<path d="M658 3244 H692" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+<text x="104" y="3432" class="bold">HOW TO READ THE RETURN ARROWS</text>
+<text x="104" y="3458" class="">Solid red: fix the failing case in 03. Dashed red: S revises 02, then reapprove.</text>
+<text x="104" y="3482" class="">Use systematic-debugging for failures; verify again until green. No self-approval.</text>
+<text x="104" y="3506" class="">Purple: publishing follow-ups seed 01. Tracker arrows: updates in the same session.</text>
+<text x="104" y="3546" class="bold">SOURCE MAP · paths relative to this repository</text>
+<text x="104" y="3572" class="source">docs/workflows/README.md; 01-research.md; 02-planning.md; 03-execution.md;</text>
+<text x="104" y="3595" class="source">04-verification.md; 05-tracking.md; 06-publishing.md (all under docs/workflows/)</text>
+<text x="104" y="3618" class="source">docs/superpowers/README.md; docs/models/routing.md</text>
+<text x="104" y="3641" class="source">docs/standards/git.md; docs/standards/testing.md; docs/standards/code-review.md</text>
+<text x="104" y="3664" class="source">docs/integrations/README.md; docs/integrations/github.md</text>
+<text x="104" y="3687" class="source">.agents/skills/{research-loop,planner-executor-handoff,test-gate,</text>
+<text x="104" y="3710" class="source">work-tracking,release-publish}/SKILL.md (each card also has source metadata)</text>
+<text x="104" y="3754" class="bold">EXAMPLE CHOICES · not additional repository rules</text>
+<text x="104" y="3780" class="">GitHub; csv-export slug; illustrative research questions and task split; main; human merge.</text>
+<text x="104" y="3804" class="">Code analysis is part of planning. Branch finishing/merge is not an extra phase.</text>
+<text x="104" y="3828" class="">Human or second S can approve a plan; publishing always needs a human co-sign.</text>
+</svg>

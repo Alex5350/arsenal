@@ -8,11 +8,19 @@ rewrite.
 | Backend | Requires | Guide |
 | --- | --- | --- |
 | GitHub Issues | `gh` CLI, authenticated | [github.md](github.md) |
-| Jira | API token (REST via curl) or MCP server | [jira.md](jira.md) |
+| Jira | API token (REST via `curl`, bodies built with `jq`) or MCP server | [jira.md](jira.md) |
 | Azure DevOps | `az` CLI with boards extension | [azure-devops.md](azure-devops.md) |
+
+Six subcommands, the same on every backend: `create`, `comment`,
+`transition`, `link`, `pr` (open the review pull request, titled and
+cross-referenced with the item's ID), and `show` (print the item's current
+state). `pr` uses the `gh` CLI whatever the backend, because the code lives
+on GitHub.
 
 Selection: `WORK_BACKEND=gh|jira|ado` in `.env` (shape:
 [`templates/work-item.example.env`](../templates/work-item.example.env)).
+The script loads `.env` from the repository root only. That file is executed
+as shell, so a `.env` in the current directory is deliberately never loaded.
 Never commit `.env`; see the [security standard](../standards/security.md).
 
 ## Choosing a backend

@@ -25,6 +25,14 @@ Exit codes are the interface. Anything else (output format, framework, stack)
 is the consumer repo's choice. The `docs/templates/app-ci.yml` starter runs
 both on every pull request.
 
+Arsenal keeps the same contract for itself. Its `make test-unit` runs the
+skill and agent validators, the manifest check, the generated-file check,
+and the `scripts/work-item.sh` tests (`tests/work-item.test.sh`, plain bash
+with stubbed CLIs, no network); its `make test-integration` runs the link
+checker; `make verify` is both. Its CI calls those two targets. A consumer
+repository inherits that Makefile and replaces or extends the two recipes
+with its own suites.
+
 ## The gate
 
 Work moves from execution to tracking only when:

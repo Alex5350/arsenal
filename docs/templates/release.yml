@@ -1,0 +1,94 @@
+# Starter release workflow for consumer repositories (any stack).
+# Copy to .github/workflows/release.yml next to app.yml (docs/templates/app-ci.yml).
+# Pushing a tag v* runs the unit gate, builds, writes release notes from the
+# Conventional Commits since the previous tag, publishes a GitHub release, and
+# runs an optional post-release check.
+# Docs: docs/workflows/06-publishing.md, docs/standards/git.md (commit format)
+
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+# gh release create needs to write to the repository's releases.
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      # fetch-depth 0: the notes step needs every tag and the commits between them.
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
+
+      # Replace with your stack's setup steps, for example:
+      # - uses: actions/setup-node@v5
+      #   with:
+      #     node-version: 24
+      #     cache: npm
+      # - run: npm ci
+
+      - name: Unit tests
+        run: make test-unit
+
+      # Build the artifacts to attach, per stack, for example:
+      # - name: Build
+      #   run: npm run build && tar -czf dist/app-${GITHUB_REF_NAME}.tar.gz -C dist .
+
+      - name: Release notes from Conventional Commits
+        run: |
+          tag="$GITHUB_REF_NAME"
+          # Nearest tag reachable from this tag's parent; empty on the first release.
+          prev="$(git describe --tags --abbrev=0 "${tag}^" 2>/dev/null || true)"
+          if [ -n "$prev" ]; then
+            range="${prev}..${tag}"
+          else
+            range="$tag"
+          fi
+          git log --no-merges --pretty='- %s (%h)' "$range" > commits.txt
+
+          # One section per Conventional Commit type ("type(scope)!: subject");
+          # everything else lands in Other.
+          types='feat|fix|perf|refactor|docs|test|build|ci|chore'
+          {
+            if [ -n "$prev" ]; then
+              echo "Changes since $prev."
+            else
+              echo "First release."
+            fi
+            for group in 'Features|feat' 'Bug fixes|fix' 'Performance|perf' 'Refactoring|refactor' \
+                         'Documentation|docs' 'Tests|test' 'Build and CI|build|ci|chore'; do
+              heading="${group%%|*}"
+              pattern="${group#*|}"
+              lines="$(grep -E "^- (${pattern})(\([^)]*\))?!?: " commits.txt || true)"
+              if [ -n "$lines" ]; then
+                printf '\n## %s\n%s\n' "$heading" "$lines"
+              fi
+            done
+            other="$(grep -Ev "^- (${types})(\([^)]*\))?!?: " commits.txt || true)"
+            if [ -n "$other" ]; then
+              printf '\n## Other\n%s\n' "$other"
+            fi
+          } > notes.md
+          cat notes.md
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # Append the build output to attach it, for example: dist/*
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md
+
+      # Optional: set the repository variable POST_RELEASE_CHECK (Settings ->
+      # Secrets and variables -> Actions -> Variables) to a shell command that
+      # proves the release is live, for example:
+      #   curl -fsS https://example.com/healthz
+      # The step is skipped when the variable is unset. It arrives through env,
+      # never inlined into the script, so its contents cannot rewrite this step.
+      - name: Post-release check
+        if: vars.POST_RELEASE_CHECK != ''
+        env:
+          POST_RELEASE_CHECK: ${{ vars.POST_RELEASE_CHECK }}
+        run: bash -euo pipefail -c "$POST_RELEASE_CHECK"

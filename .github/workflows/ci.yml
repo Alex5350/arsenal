@@ -13,9 +13,36 @@ jobs:
 
       - name: Syntax check shell scripts
         run: |
-          for s in scripts/*.sh; do
+          for s in scripts/*.sh tests/*.sh; do
             bash -n "$s"
           done
+
+      - name: Unit tests
+        run: make test-unit
+
+      - name: Integration tests
+        run: make test-integration
+
+      - name: No committed symlinks
+        run: |
+          if git ls-files -s | grep '^120000 '; then
+            echo "committed symlinks found (they break Windows checkouts); use real folders" >&2
+            exit 1
+          fi
+
+      - name: shellcheck
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq shellcheck
+          shellcheck scripts/*.sh tests/*.sh
+
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Validate skill frontmatter
         run: ./scripts/validate-skills.sh
@@ -23,14 +50,14 @@ jobs:
       - name: Validate agent frontmatter
         run: ./scripts/validate-agents.sh
 
-      - name: Check internal markdown links
-        run: ./scripts/check-links.sh
+      - name: Generated files are in sync
+        run: ./scripts/sync.sh --check
 
-      - name: shellcheck
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq shellcheck
-          shellcheck scripts/*.sh
+      - name: Manifests are valid
+        run: ./scripts/validate-manifests.sh
+
+      - name: Script tests
+        run: bash tests/work-item.test.sh
 
   gitleaks:
     runs-on: ubuntu-latest

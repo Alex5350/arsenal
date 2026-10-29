@@ -5,8 +5,9 @@
 ## The shape: hub and adapters
 
 One canonical knowledge base (`docs/`), many thin adapters at the repository
-root, one installer that fans shared skills out to each harness's expected
-location on a developer's machine.
+root, one skills folder and one agents folder that every harness reads where
+they live: natively, through a committed pointer (the Claude Code plugin,
+the OpenCode agent entries), or, for Codex agents only, as generated TOML.
 
 ```
 Claude Code ──── CLAUDE.md ────────────────┐
@@ -29,17 +30,40 @@ Codex CLI, OpenCode, and the Copilot coding agent natively, and Claude Code
 reads `AGENTS.md` as a fallback, so one file reaches everyone; `CLAUDE.md`
 exists to use Claude Code's native `@path` imports for the same content.
 
-**ADR-002: one skills directory, many committed doors.** The canonical copy of
-every skill lives in `docs/skills/`. Each harness reads skills from its own
-project directory (`.claude/skills/` for Claude Code, `.codex/skills/` for
-Codex CLI, `.opencode/skills/` for OpenCode, `.github/skills/` for Copilot),
-and in this repository those four directories are committed relative symlinks
-to `docs/skills`. One copy, one place to fix, and a fresh clone serves every
-harness with zero setup; the Copilot coding agent receives the same skills
-when it checks the repository out on github.com. `scripts/bootstrap.sh`
-verifies and repairs the links (Windows checkouts without symlink support
-materialize them as text files; the script repairs that) and can optionally
-wire user-level skill directories for your other projects (`--user`).
+**ADR-002: canonical skills in the cross-tool `.agents/skills/`, role agents
+in `.claude/agents/`, Claude Code bridged by a committed plugin.** Revised
+2026-09-19; supersedes the 2026-09-18 revision (canonical `.claude/skills`
+plus a generated `.agents/skills` mirror for Codex) and the original ADR-002
+(canonical `docs/skills` reached through committed symlinks). Symlinks were
+rejected because Git for Windows checks them out as plain text files by
+default (`core.symlinks` is `false`; real links need Developer Mode or admin
+rights), so that design failed exactly where a template must just work.
+Copies were rejected because a second skills folder means a sync step after
+every edit, a drift check in CI, and duplicate names in the harnesses that
+scan both folders. Every skill now lives once in `.agents/skills/`, the
+folder Codex, Copilot (CLI, VS Code, coding agent), and OpenCode read
+natively, and every role agent lives once in `.claude/agents/`, read
+natively by Claude Code and Copilot. This is the one deliberate exception to
+ADR-001: Claude Code and Codex share no skills folder, and neither accepts a
+configured one, so without symlinks no folder under `docs/` can reach both
+([evidence and the 2026-09-19 test log](research/shared-ai-resources-without-symlinks.md)).
+Claude Code does not read `.agents/skills`, so a committed repo-local plugin
+serves it the same folder: `.claude-plugin/plugin.json`,
+`.claude-plugin/marketplace.json`, and `.claude/settings.json`, hand-written
+and checked by `scripts/validate-manifests.sh`. The bridge has two costs:
+skills carry the `arsenal:` prefix in Claude Code, and a checkout where no
+Claude Code session has run yet (a fresh machine, a CI runner, or a second
+clone or worktree of the same repo on one machine) must pass
+`claude -p --plugin-dir .`, because the repo settings register the plugin
+only after the trust prompt and the first session. The only generated files
+are `.codex/agents/*.toml`, built by `scripts/sync.sh` because Codex agents
+are TOML-only; OpenCode reaches the agents through hand-written
+`opencode.json` entries whose `prompt` is `{file:./.claude/agents/<name>.md}`.
+CI runs `scripts/sync.sh --check`. One place to edit per kind, no sync step
+for skills, and a fresh clone serves every harness on any OS; the Copilot
+coding agent receives the same skills when it checks the repository out on
+github.com. `scripts/bootstrap.sh --user` still wires user-level skill
+directories for your other projects.
 
 **ADR-003: Superpowers is referenced and pinned, not vendored.** Superpowers is
 a 289k-star, MIT-licensed skill framework with native plugin distribution for
@@ -51,7 +75,8 @@ itself (tiered routing, work tracking, publishing).
 **ADR-004: validation is shell, not a toolchain.** A template for any stack
 must run anywhere, so CI checks are bash scripts plus shellcheck and gitleaks.
 There is no Node, Python, or .NET dependency to install before the hub can
-prove itself.
+prove itself: nothing gets installed, and `scripts/validate-manifests.sh`
+uses the Python 3 that every runner already has.
 
 **ADR-005: tracking behind one script contract.** The loop is tracker-agnostic
 because all phase docs and skills call `scripts/work-item.sh` with the same
@@ -59,16 +84,15 @@ subcommands (`create`, `comment`, `transition`, `link`) instead of calling
 `gh`, `jira`, or `az boards` directly. Swapping backends is a config change,
 not a docs rewrite.
 
-**ADR-006: one agent library, many doors, minimal frontmatter.** Role
-agents (researcher, planner, reviewer) are markdown files in `docs/agents/`
-with exactly two frontmatter keys, `name` and `description`, because those
-are the only keys every consumer reads: Claude Code loads
-`.claude/agents/<name>.md`, OpenCode loads `.opencode/agent/<name>.md`, and
-VS Code Copilot loads `.github/chatmodes/<name>.chatmode.md`; those three
-doors are committed per-file symlinks (a directory link would expose the
-shelf README to harness scanners). Codex defines agents in TOML, so its
-`.codex/agents/<name>.toml` door is generated by `scripts/bootstrap.sh`
-from the canonical markdown and regenerated on every run. Per-harness keys
+**ADR-006: one agent library, minimal frontmatter.** Role
+agents (researcher, planner, reviewer) are markdown files in `.claude/agents/`
+(see ADR-002) with exactly two frontmatter keys, `name` and `description`,
+because those are the only keys every consumer reads: Claude Code and
+Copilot (CLI and VS Code) load `.claude/agents/<name>.md` directly, and
+OpenCode loads the same file through an `opencode.json` subagent whose
+`prompt` is `{file:./.claude/agents/<name>.md}`. Codex defines agents in
+TOML, so `scripts/sync.sh` builds `.codex/agents/<name>.toml` from the
+canonical markdown. Per-harness keys
 (`model`, `tools`, `mode`) are deliberately absent: their value formats
 differ per harness, so a shared file cannot carry them; model assignment
 lives in `models/routing.md` and applies at the session level.
@@ -101,19 +125,23 @@ date. The current ledger:
 
 | Fact | Where | Last verified |
 | --- | --- | --- |
-| Claude Code reads `AGENTS.md` as fallback; `CLAUDE.md` supports `@path` imports | `harness/claude-code.md` | 2026-09 |
-| Codex CLI reads `AGENTS.md`; skills supported | `harness/codex.md` | 2026-09 |
-| OpenCode skills at `.opencode/skills/`, agents and models in `opencode.json` | `harness/opencode.md` | 2026-09 |
-| Copilot reads `.github/copilot-instructions.md`; coding agent reads `AGENTS.md` | `harness/copilot.md` | 2026-09 |
+| Claude Code reads `AGENTS.md` as fallback; `CLAUDE.md` supports `@path` imports; never reads `.agents/` directly, so the committed repo-local plugin bridges it: loads after the trust prompt from the second session on, `--plugin-dir .` where no session has run | `harness/claude-code.md` | 2026-09 |
+| Codex CLI reads `AGENTS.md`; skills only from `.agents/skills/`; agents from `.codex/agents/*.toml` in trusted projects | `harness/codex.md` | 2026-09 |
+| OpenCode reads skills from `.agents/skills/`; role agents through `opencode.json` `{file:}` prompts; `model` is `provider/model`, `permission` replaces `tools` | `harness/opencode.md` | 2026-09 |
+| Copilot reads `.github/copilot-instructions.md`; coding agent reads `AGENTS.md`; skills from `.agents/skills/`, agents from `.claude/agents/` | `harness/copilot.md` | 2026-09 |
 | Agent Skills standard: `name`, `description` frontmatter, progressive disclosure | `skills/README.md` | 2026-09 |
-| Claude Code agents at `.claude/agents/*.md`; OpenCode at `.opencode/agent/*.md`; VS Code chat modes at `.github/chatmodes/*.chatmode.md`; Codex agents at `.codex/agents/*.toml` (TOML) | `agents/README.md` | 2026-09 |
+| Claude Code and Copilot (CLI, VS Code) agents at `.claude/agents/*.md`; OpenCode through `opencode.json` pointers to the same files; Codex agents at `.codex/agents/*.toml` (TOML) | `agents/README.md` | 2026-09 |
+| Claude Code and Codex share no skills folder; Git for Windows checks symlinks out as text by default | `research/shared-ai-resources-without-symlinks.md` | 2026-09 |
 | Frontier model names per provider | `models/routing.md` | 2026-09 |
 | Superpowers install commands per harness | `superpowers/README.md` | 2026-09 |
 
 ## Limits, honestly stated
 
-- Harness skill-directory paths are the least stable fact in the system; the
-  bootstrap script prints what it did and links nothing silently.
+- Harness skill-directory paths are the least stable fact in the system;
+  each harness guide states where its tool looks, the Claude Code bridge is
+  three small JSON files that `scripts/validate-manifests.sh` checks, and CI
+  fails when the generated Codex TOML or an `opencode.json` description
+  drifts from `.claude/agents/`.
 - The hub governs agent behavior through instructions and CI; it cannot
   enforce anything inside a harness session beyond what the harness itself
   enforces (permissions, hooks).
